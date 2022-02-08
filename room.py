@@ -49,3 +49,4 @@ class Room:
     def set_value(self, num):
         """set the room value"""
         self.__value = num
+

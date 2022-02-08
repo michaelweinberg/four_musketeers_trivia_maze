@@ -1,4 +1,5 @@
 from room import Room
+from player import Player
 
 
 class Map:
@@ -12,6 +13,7 @@ class Map:
         self.__start = None
         self.__destination = None
         self.__map = None
+        self.__player = None
 
     def print_map(self):
         """show the map in the console"""
@@ -39,11 +41,18 @@ class Map:
         self.__destination = self.__map[self.__height - 1][self.__width - 1]
         self.__destination.set_destination()
 
+    def generate_player(self):
+        self.__player = Player(0, 0)
+        x = self.__player.get_x()
+        y = self.__player.get_y()
+        self.__map[y][x].set_value(10)
+
 
 def run():
 
     map = Map()
     map.generate_map()
+    map.generate_player()
     map.print_map()
 
 
