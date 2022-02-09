@@ -25,3 +25,18 @@ class Player:
 
     def die(self):
         print("Our hero has died")
+
+    def move_west(self):
+        self.set_x(self.__x - 1)
+
+    def move_east(self):
+        self.set_x(self.__x + 1)
+
+    def move_north(self):
+        self.set_y(self.__y - 1)
+
+    def move_south(self):
+        self.set_y(self.__y + 1)
+
+    def __str__(self):
+        print("player" + str(self.__y), str(self.__x))

@@ -13,7 +13,7 @@ class Map:
         self.__start = None
         self.__destination = None
         self.__map = None
-        self.__player = None
+        self.__player = Player()
 
     def print_map(self):
         """show the map in the console"""
@@ -42,10 +42,39 @@ class Map:
         self.__destination.set_destination()
 
     def generate_player(self):
-        self.__player = Player(0, 0)
         x = self.__player.get_x()
         y = self.__player.get_y()
         self.__map[y][x].set_value(10)
+
+    def movement_available(self, y, x):
+        if x in range(0, self.__width) and y in range(0, self.__height):
+            return True
+        else:
+            return False
+
+    def update_player(self, move):
+        print("update_player")
+        if move == "a":
+            if self.movement_available(self.__player.get_y(), self.__player.get_x() - 1):
+                self.__player.move_west()
+        if move == "d":
+            if self.movement_available(self.__player.get_y(), self.__player.get_x() + 1):
+                self.__player.move_east()
+        if move == "w":
+            if self.movement_available(self.__player.get_y() - 1, self.__player.get_x()):
+                self.__player.move_north()
+        if move == "s":
+            if self.movement_available(self.__player.get_y() + 1, self.__player.get_x()):
+                self.__player.move_south()
+                print("update_player_s")
+
+    def move_player(self):
+        while True:
+            input_var = input("please enter w/s/a/d:")
+            self.update_player(input_var)
+            self.generate_player()
+            print(self.__player.__str__())
+            self.print_map()
 
 
 def run():
@@ -54,6 +83,7 @@ def run():
     map.generate_map()
     map.generate_player()
     map.print_map()
+    map.move_player()
 
 
 if __name__ == "__main__":
