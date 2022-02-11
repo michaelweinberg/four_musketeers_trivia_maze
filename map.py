@@ -52,29 +52,93 @@ class Map:
         else:
             return False
 
-    def update_player(self, move):
-        print("update_player")
-        if move == "a":
-            if self.movement_available(self.__player.get_y(), self.__player.get_x() - 1):
-                self.__player.move_west()
-        if move == "d":
-            if self.movement_available(self.__player.get_y(), self.__player.get_x() + 1):
-                self.__player.move_east()
-        if move == "w":
-            if self.movement_available(self.__player.get_y() - 1, self.__player.get_x()):
-                self.__player.move_north()
-        if move == "s":
-            if self.movement_available(self.__player.get_y() + 1, self.__player.get_x()):
-                self.__player.move_south()
-                print("update_player_s")
+    def room_status(self, y, x):
+        return self.__map[y][x].visited_status()
 
-    def move_player(self):
-        while not self.reach_exit():
-            input_var = input("please enter w/s/a/d:")
-            self.update_player(input_var)
-            self.generate_player()
-            print(self.__player.__str__())
-            self.print_map()
+    # def player_y(self):
+    #     return self.__player.get_y()
+    #
+    # def player_x(self):
+    #     return self.__player.get_x()
+    def west_room_available(self):
+        if self.movement_available(self.__player.get_y(), self.__player.get_x() - 1):
+            if self.__map[self.__player.get_y()][self.__player.get_x()-1].visited_status():
+                print("room has been visited")
+            else:
+                print("room has not been visited")
+        else:
+            print("room not available")
+
+    def move_west(self):
+        if self.movement_available(self.__player.get_y(), self.__player.get_x() - 1):
+            self.__player.move_west()
+            self.__map[self.__player.get_y()][self.__player.get_x()].set_visited()
+
+    def east_room_available(self):
+        if self.movement_available(self.__player.get_y(), self.__player.get_x() + 1):
+            if self.__map[self.__player.get_y()][self.__player.get_x()+1].visited_status():
+                print("room has been visited")
+            else:
+                print("room has not been visited")
+        else:
+            print("room not available")
+
+    def move_east(self):
+        if self.movement_available(self.__player.get_y(), self.__player.get_x() + 1):
+            self.__player.move_east()
+            self.__map[self.__player.get_y()][self.__player.get_x()].set_visited()
+
+    def north_room_available(self):
+        if self.movement_available(self.__player.get_y() - 1, self.__player.get_x()):
+            if self.__map[self.__player.get_y()-1][self.__player.get_x()].visited_status():
+                print("room has been visited")
+            else:
+                print("room has not been visited")
+        else:
+            print("room not available")
+
+    def move_north(self):
+        if self.movement_available(self.__player.get_y() - 1, self.__player.get_x()):
+            self.__player.move_north()
+            self.__map[self.__player.get_y()][self.__player.get_x()].set_visited()
+
+    def south_room_available(self):
+        if self.movement_available(self.__player.get_y() + 1, self.__player.get_x()):
+            if self.__map[self.__player.get_y()+1][self.__player.get_x()].visited_status():
+                print("room has been visited")
+            else:
+                print("room has not been visited")
+        else:
+            print("room not available")
+
+    def move_south(self):
+        if self.movement_available(self.__player.get_y() + 1, self.__player.get_x()):
+            self.__player.move_south()
+            self.__map[self.__player.get_y()][self.__player.get_x()].set_visited()
+
+    # def update_player(self, move):
+    #     print("update_player")
+    #     if move == "a":
+    #         if self.movement_available(self.__player.get_y(), self.__player.get_x() - 1):
+    #             self.__player.move_west()
+    #     if move == "d":
+    #         if self.movement_available(self.__player.get_y(), self.__player.get_x() + 1):
+    #             self.__player.move_east()
+    #     if move == "w":
+    #         if self.movement_available(self.__player.get_y() - 1, self.__player.get_x()):
+    #             self.__player.move_north()
+    #     if move == "s":
+    #         if self.movement_available(self.__player.get_y() + 1, self.__player.get_x()):
+    #             self.__player.move_south()
+    #     self.__map[self.__player.get_y()][self.__player.get_x()].set_visited()
+    #
+    # def move_player(self):
+    #     while not self.reach_exit():
+    #         input_var = input("please enter w/s/a/d:")
+    #         self.update_player(input_var)
+    #         self.generate_player()
+    #         print(self.__player.__str__())
+    #         self.print_map()
 
     def reach_exit(self):
         if self.__player.get_x() == self.__width - 1 and self.__player.get_y() == self.__height - 1:

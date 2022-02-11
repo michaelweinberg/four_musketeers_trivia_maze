@@ -5,7 +5,6 @@ class Room:
         self.__coordinate_y = y
         self.__value = 0
         self.__name = None
-        self.__do = None
         self.__is_visited = False
 
     def get_x(self):
@@ -25,15 +24,17 @@ class Room:
         self.__value = 0
         self.__name = "empty room"
 
-    def set_block(self):
-        """set the room value to one as a block"""
+    def set_visited(self):
+        """set the room value as visited"""
         self.__value = 1
-        self.__name = "blocked room"
+        self.__name = "visited room"
+        self.__is_visited = True
 
     def set_start(self):
         """set the room value to two as the entrance"""
         self.__value = 2
         self.__name = "start"
+        self.__is_visited = True
         print("start is set")
 
     def set_destination(self):
@@ -49,5 +50,8 @@ class Room:
     def set_value(self, num):
         """set the room value"""
         self.__value = num
+
+    def visited_status(self):
+        return self.__is_visited
 
 
