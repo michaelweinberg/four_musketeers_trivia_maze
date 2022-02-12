@@ -55,19 +55,27 @@ class Map:
     def room_status(self, y, x):
         return self.__map[y][x].visited_status()
 
-    # def player_y(self):
-    #     return self.__player.get_y()
-    #
-    # def player_x(self):
-    #     return self.__player.get_x()
+    def get_room(self, y, x):
+        room = self.__map[y][x]
+        return room
+
+    def player_y(self):
+        return self.__player.get_y()
+
+    def player_x(self):
+        return self.__player.get_x()
+
     def west_room_available(self):
         if self.movement_available(self.__player.get_y(), self.__player.get_x() - 1):
             if self.__map[self.__player.get_y()][self.__player.get_x()-1].visited_status():
                 print("room has been visited")
+                return 1
             else:
                 print("room has not been visited")
+                return 0
         else:
             print("room not available")
+            return 2
 
     def move_west(self):
         if self.movement_available(self.__player.get_y(), self.__player.get_x() - 1):
@@ -78,10 +86,13 @@ class Map:
         if self.movement_available(self.__player.get_y(), self.__player.get_x() + 1):
             if self.__map[self.__player.get_y()][self.__player.get_x()+1].visited_status():
                 print("room has been visited")
+                return 1
             else:
                 print("room has not been visited")
+                return 0
         else:
             print("room not available")
+            return 2
 
     def move_east(self):
         if self.movement_available(self.__player.get_y(), self.__player.get_x() + 1):
@@ -92,10 +103,13 @@ class Map:
         if self.movement_available(self.__player.get_y() - 1, self.__player.get_x()):
             if self.__map[self.__player.get_y()-1][self.__player.get_x()].visited_status():
                 print("room has been visited")
+                return 1
             else:
                 print("room has not been visited")
+                return 0
         else:
             print("room not available")
+            return 2
 
     def move_north(self):
         if self.movement_available(self.__player.get_y() - 1, self.__player.get_x()):
@@ -106,10 +120,13 @@ class Map:
         if self.movement_available(self.__player.get_y() + 1, self.__player.get_x()):
             if self.__map[self.__player.get_y()+1][self.__player.get_x()].visited_status():
                 print("room has been visited")
+                return 1
             else:
                 print("room has not been visited")
+                return 0
         else:
             print("room not available")
+            return 2
 
     def move_south(self):
         if self.movement_available(self.__player.get_y() + 1, self.__player.get_x()):

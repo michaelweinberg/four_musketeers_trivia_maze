@@ -20,6 +20,8 @@ class TriviaController:
     # def get_question_from_db(self):
     #     question_data = self.__model.get_question_list()
     #     return self.__view.print_question(question_data)
+    def sample_Q(self):
+        print("QUESTION")
 
     def move_character(self):
         while not self.__map.reach_exit():
@@ -30,18 +32,32 @@ class TriviaController:
 
     def enter_room(self, move):
         if move == "a":
-            self.__map.west_room_available()
-            self.__map.move_west()
+            if self.__map.west_room_available() != 2:
+                if self.__map.west_room_available() == 0:
+                    self.sample_Q()
+                self.__map.move_west()
         if move == "d":
-            self.__map.east_room_available()
-            self.__map.move_east()
+            if self.__map.east_room_available() != 2:
+                if self.__map.east_room_available() == 0:
+                    self.sample_Q()
+                self.__map.move_east()
         if move == "w":
-            self.__map.north_room_available()
-            self.__map.move_north()
+            if self.__map.north_room_available() != 2:
+                if self.__map.north_room_available() == 0:
+                    self.sample_Q()
+                self.__map.move_north()
         if move == "s":
-            self.__map.south_room_available()
-            self.__map.move_south()
+            if self.__map.south_room_available() != 2:
+                if self.__map.south_room_available() == 0:
+                    self.sample_Q()
+                self.__map.move_south()
 
+    def get_room_info(self):
+        current_room = self.__map.get_room(self.__map.player_y(), self.__map.player_x())
+        return current_room.get_value()
+
+    def get_map(self):
+        return self.__map
 
 def run():
     view = TriviaView()

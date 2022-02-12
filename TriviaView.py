@@ -1,5 +1,3 @@
-from map import Map
-
 
 class TriviaView:
     def print_map(self, map):
