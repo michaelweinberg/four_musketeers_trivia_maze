@@ -1,0 +1,65 @@
+﻿ID ,Category,Question,Answer
+1,General,"True or False:  The 2022 Winter Olympic games take place this year in Shanghai, China.",FALSE
+2,General,True or False:  There are fifteen disciplines in all at the Winter Games.,TRUE
+3,General,True or False:  Beijing is the first city ever to host both the Summer (2008) and Winter (2022) Olympic Games.,TRUE
+4,General,"True or False:  1,314 is the highest number of women ever competing at the Olympic Winter Games this year.",TRUE
+5,Bobsled,True or False:  1924 was the first time Bobsled was included as a sport in the Winter Games.,TRUE
+6,Bobsled,True or False:  Bobsleds are powered by an engine inside.,FALSE
+7,Bobsled,"True or False:  Three Winter Games bobsled events include the 2-man team, 2-woman team, and 4-man team.",TRUE
+8,Bobsled,True or False:  The 2-woman bobsled event was added to the Olympics in 2002.,TRUE
+9,Curling,True or False:  The sport of curling is over 500 years old.,TRUE
+10,Curling,"True or False:  In curling, participants sweep in front of the rock to slow it down.",FALSE
+11,Curling,True or False:  The bullseye or cetner circle in curling is called the house.,TRUE
+12,Curling,True or False:  The stones in curling weigh 44 pounds.,TRUE
+13,Luge,True or False:  Luge was created in 1976.,TRUE
+14,Luge,True or False:  Switzerland was the country that invented luge.,TRUE
+15,Luge,True or False:  Luge is called luge because it is French for sledge.,TRUE
+16,Luge,True or False:  Germany is the country that has won the most Luge medals in the Winter Olympics.,TRUE
+17,Skeleton,True or False:  The Olympic rings are symbolic of 5 continents.,TRUE
+18,Skeleton,"True or False:  The first Winter Olympic Games were held in Chaminox, France.",TRUE
+19,Skeleton,True or False:  Norway is the country that has won the most medals for the Winter Olympic Games.,TRUE
+20,Skeleton,True or False:  To date 23 Winter Olympic Games have been held.,TRUE
+21,Ice Hockey,True or False:  Hockey first became an Olympic sport for women in 1998.,TRUE
+22,Ice Hockey,True or False:  The Olympic Games follow the rules of the International Ice Hockey Federation.,TRUE
+23,Ice Hockey,"True or False:  The best three teams in Olympic history in ice hockey are Canada, Russia, and USA.",TRUE
+24,Ice Hockey,True or False:  Ice hockey made its first appearance at the 1920 Summer Olympics in Antwerp.,TRUE
+25,Figure Skating,"True or False:  Canadian Brian Orser to was expected to win Gold in Men's Figure Skating at the 1988 Calgary Olympics, but he lost to Brian Boitano.  Fans attribute his loss to carrying the Canadian flag during the opening ceremonies.",TRUE
+26,Figure Skating,True or False:  A Quadruple Axle has four and a half rotations.,TRUE
+27,Figure Skating,"True or False:  Only 15 at the time of her Olympic Gold Medal in 1998, Tara Lipinski moved to Professional Skating immediately after Nagano.",TRUE
+28,Figure Skating,"True or False:  Brian Orser was known as ""Mr. Triple Axel""  for his ability to land the jump when few skaters could.",TRUE
+29,Speed Skating,True or False:  Women's events for speed skating were added to the Olympic program for the first time in 1960.,TRUE
+30,Speed Skating,True or False:  The governing body for speed skating is the ISU or International Skating Union.,TRUE
+31,Speed Skating,True or False:  The United States holds the most number of Olympic medals in speed skating.,FALSE
+32,Speed Skating,True or False:  J.R. Celski is an American short track speed skater from the state of Washington.,TRUE
+33,Short Track,True or False:  Tonya Harding was allegedly involved in the attack on fellow female figure skater Nancy Kerrigan in 1994.,TRUE
+34,Short Track,True or False:  Ice dance couple Tessa Virtue and Scott Moir made history when they won gold at the Vancouver Olympics in 2010.,TRUE
+35,Short Track,True or False:  Throws are not allowed in Ice Dancing.,TRUE
+36,Short Track,True or False:  Nathan Chen received the highest score ever given for the Men's Short Program in figure skating in the 2022 Olympic Games.,TRUE
+37,Alpine Skiing,"True or False:  Alpine skiing consists of four separate disciplines:  downhill, slalom, giant slalom, and super-G.",TRUE
+38,Alpine Skiing,True or False:  Alpine skiing was the second event at the Winter Olympic Games to include women.,TRUE
+39,Alpine Skiing,True or False:  Mikaela Shiffrin was a favorite in alpine skiing going into the 2022 Winter Olympics.,TRUE
+40,Alpine Skiing,True or False:  Mikaela Shiffrin's boyfriend is fellow Alpine skiier Aleksander Aamodt Kilde.,TRUE
+41,Freestyle Skiing,True or False:  Eileen Gu won gold in the Big Air Freestyle Skiing event in the 2022 Winter Olympics.,TRUE
+42,Freestyle Skiing,True or False:  Freestyle skiing was added to the Winter Olympics in 1992.,TRUE
+43,Freestyle Skiing,True or False:  Competitive freestyle skiing began in the 1960s as a rebellion against the straitjacket of traditional alpine racing that reflected the wider social changes of that turbulent decade.,TRUE
+44,Freestyle Skiing,"True or False:  Birk Ruud won the Beijing Games' men's freestyle skiing big air event, which made its Winter Olympics debut.",TRUE
+45,Snowboarding,True or False:  35-year-old snowboarder Shaun White plans to retire after the 2022 Beijing Games.,TRUE
+46,Snowboarding,"True or False:  Snowboarding was first included in the 1998 Winter Olympics in Nagano, Japan.",TRUE
+47,Snowboarding,True or False:  Canadian Ross Rebagliati was the first athlete to win a gold medal in snowboarding.,TRUE
+48,Snowboarding,True or False:  Shaun White of the United States is the only triple gold medalist in snowboarding.,TRUE
+49,Biathlon,True or False:  Biathlon is an event that combines cross country skiing with shooting.,TRUE
+50,Biathlon,"True or False:  Biathlon debuted at the 1960 Winter Olympics in Squaw Valley, California.",TRUE
+51,Biathlon,"True or False:  Prior to the biathlon debut at the 1960 Winter Olympics, there was a military patrol event that was held at four Winter Olympic Games:  1924, 1928, 1936, and 1948.",TRUE
+52,Biathlon,True or False:  Germany is the country that has won the most biathlon event medals.,TRUE
+53,Cross-CountrySkiing,True or False:  Cross-country skiiers move between 20 and 28 mph.,TRUE
+54,Cross-CountrySkiing,"True or False:  Cross-country skiing has been an Olympic sport ever since the first Winter Olympics were held in Chamonix, France in 1924.",TRUE
+55,Cross-CountrySkiing,"True or False:  Five cross-country ski disciplines will be held during the Beijing Winter Olympics:  Skiathlon, Sprint, Individual, Relay, Mass Start.",TRUE
+56,Cross-CountrySkiing,"True or False:  At the Beijing Winter Olympic Games, Jessie Diggins became the first U.S. woman to win an Olympic medal in an individual cross-country skiing event.",TRUE
+57,Ski Jumping,True or False:  Ski jumping suits caused disqualifications at the Olympics this year.,TRUE
+58,Ski Jumping,True or False:  Ski jumping has been included in the program of every Winter Lympic Games.,TRUE
+59,Ski jumping,"True or False:  The International Olympic Committee officially accepted women's ski jumping into the official Olympic program for the 2014 Winter Olympics in Sochi, Russia.",TRUE
+60,Ski Jumping,True or False:  Norway is the country that has won the most medals for ski jumping in the history of the Winter Olympic Games.,TRUE
+61,Nordic,True or False:  Nordic combined events at the Olympics combines ski jumping and cross-country skiing.,TRUE
+62,Nordic,True or False:  Ice dancing resembles ballet on ice.,FALSE
+63,Nordic,True or False:  World Skating Federation (WSF) is the international governing body for competitive ice skating disciplines.,FALSE
+64,Nordic,True or False:  Olympic-sized ice rinks have dimensions of 30m x 60m.,TRUE
