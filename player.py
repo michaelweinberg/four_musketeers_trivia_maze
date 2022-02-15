@@ -3,13 +3,20 @@ class Player:
         self.__name = ""
         self.__x = x
         self.__y = y
-        self.__is_dead = False
+        self.__score = 0
+        # self.__is_dead = False
 
     def get_name(self):
         return self.__name
 
     def set_name(self, name):
         self.__name = name
+
+    def get_score(self):
+        return self.__score
+
+    def set_score(self, score):
+        self.__score = score
 
     def get_x(self):
         return self.__x
@@ -23,8 +30,8 @@ class Player:
     def set_y(self, y):
         self.__y = y
 
-    def die(self):
-        print("Our hero has died")
+    # def die(self):
+    #     print("Our hero has died")
 
     def move_west(self):
         self.set_x(self.__x - 1)
@@ -39,4 +46,4 @@ class Player:
         self.set_y(self.__y + 1)
 
     def __str__(self):
-        print("player" + str(self.__y), str(self.__x))
+        print("player:" + self.__name + "score:" + str(self.__score))

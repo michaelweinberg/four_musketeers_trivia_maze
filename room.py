@@ -26,7 +26,6 @@ class Room:
 
     def set_visited(self):
         """set the room value as visited"""
-        self.__value = 1
         self.__name = "visited room"
         self.__is_visited = True
 
@@ -53,5 +52,9 @@ class Room:
 
     def visited_status(self):
         return self.__is_visited
+
+    def set_block(self):
+        self.__value = 4
+        print("room blocked")
 
 
