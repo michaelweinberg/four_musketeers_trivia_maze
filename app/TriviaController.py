@@ -1,7 +1,7 @@
-from model import Question
+from Model import Question
 from TriviaView import TriviaView
-from player import Player
-from room import Room
+from models.player import Player
+from models.room import Room
 
 
 class TriviaController:
@@ -14,6 +14,9 @@ class TriviaController:
         self.__player = Player()
         self.__view = TriviaView()
         self.__question = Question()
+
+    def click_handler(self, name):
+        print(name.get() + " is moving")
 
     def generate_map(self):
         """generate the map with start and destination"""
