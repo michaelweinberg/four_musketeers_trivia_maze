@@ -39,7 +39,8 @@ class TriviaController:
         :return true if the room is in range and not blocked
         :return false if the room is not in range or blocked
         """
-        if x in range(0, self.__width) and y in range(0, self.__height) and self.__map[y][x].get_value() != 4:
+        if x in range(0, self.__width) and y in range(0, self.__height) \
+                and self.__map[y][x].get_value() != 4 and not self.__map[y][x].visited_status():
             return True
         else:
             return False
