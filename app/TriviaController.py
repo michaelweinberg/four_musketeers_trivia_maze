@@ -48,6 +48,9 @@ class TriviaController:
     def room_status(self, y, x):
         return self.__map[y][x].visited_status()
 
+    def room_value(self, y, x):
+        return self.__map[y][x].get_value()
+
     def get_room(self, y, x):
         room = self.__map[y][x]
         return room
@@ -208,13 +211,17 @@ class TriviaController:
     def print_map(self):
         self.__view.print_map(self.__map)
 
+    def print_guimap(self):
+        self.__view.draw_maze_tk(self.__map)
+
 
 def run():
     newgame = TriviaController()
     newgame.generate_map()
     newgame.generate_player()
     newgame.print_map()
-    newgame.move_character()
+    # newgame.move_character()
+    newgame.print_guimap()
 
 
 if __name__ == "__main__":
