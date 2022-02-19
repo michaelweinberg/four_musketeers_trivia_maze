@@ -1,0 +1,22 @@
+{
+	"player" : {
+		"name" : "Mike",
+		"position_x" : 2,
+		"position_y" : 4,
+		"score" : 13
+	},
+	"map" : [
+			//Room()
+		     {
+				 "coordinate_x" : 3,
+				 "coordinate_y" : 3,
+				 "value" : 2,
+				 "name" : "",
+				 "is_visited" : false,
+				 "question_id" : 123
+		},
+		{},
+		{}
+		....
+	]
+}
