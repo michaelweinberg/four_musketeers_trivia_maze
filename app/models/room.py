@@ -6,6 +6,7 @@ class Room:
         self.__value = 0
         self.__name = None
         self.__is_visited = False
+        self.__question_status = None
 
     def get_x(self):
         """:return the number of the cols of the room in the map"""
@@ -56,5 +57,11 @@ class Room:
     def set_block(self):
         self.__value = 4
         print("room blocked")
+
+    def set_question_status_true(self):
+        self.__question_status = True
+
+    def set_question_status_false(self):
+        self.__question_status = False
 
 

@@ -7,6 +7,42 @@ import time
 
 class TriviaView:
 
+    def __init__(self):
+        self.cell_width = 40
+        self.row = 4
+        self.cols = 4
+        self.height = self.cell_width * self.row
+        self.width = self.cell_width * self.cols
+        self.root = tk.Tk()
+        self.root.title("Four Musketeers' Winter Olympics Trivia Game")
+        self.root.geometry("600x600") #size of the app#
+        self.root.resizable(0, 0)
+        self.canvas = tk.Canvas(self.root, background="#525288", width=2 * self.width, height=2 * self.height)
+        self.canvas.pack()
+
+    def draw_cell(self, row, col, color="#F2F2F2"):
+        cell_width = self.cell_width
+        x0, y0 = col * cell_width, row * cell_width
+        x1, y1 = x0 + cell_width, y0 + cell_width
+        self.canvas.create_rectangle(x0, y0, x1, y1, fill=color, outline=color, width=0)
+
+    def draw_maze_tk(self, map):
+
+        for row in map:
+            for room in row:
+                print(room.get_value())
+                if room.get_value() == 0:
+                    self.draw_cell(room.get_y(), room.get_x())
+                if room.get_value() == 4:
+                    self.draw_cell(room.get_y(), room.get_x(), "#525288")
+                if room.get_value() == 2:
+                    self.draw_cell(room.get_y(), room.get_x(), "#eee83f")
+                if room.get_value() == 3:
+                    self.draw_cell(room.get_y(), room.get_x(), "#cf52eb")
+                if room.get_value() == 10:
+                    self.draw_cell(room.get_y(), room.get_x(), "#ee3f4d")
+        self.root.mainloop()
+
     def print_map(self, map):
         """show the map in the console"""
         for row in map:
@@ -22,44 +58,11 @@ class TriviaView:
                     show_spot += " D"
                 elif room.get_value() == 10:
                     show_spot += " ▲"
+                elif room.get_value() == 5:
+                    show_spot += "  "
             print(show_spot)
         print(" ")
 
     def print_question(self, question):
         print("question:" + question)
 
-# if __name__== "__main__":
-#     cell_width = 40
-#     row = 4
-#     cols = 4
-#     height = cell_width * row
-#     width = cell_width * cols
-#     move_counter, total_counter = 0, 0
-#
-#     windows = tk.Tk()
-#     windows.title("Four Musketeers' Winter Olympics Trivia Game")
-#     windows.resizable(4, 4)
-#     t0 = time.time()
-#
-#     #big canvas holds maze
-#     canvas = tk.Canvas(windows, background="#525288", width=4 * width, height=4 * height)
-#     canvas.pack(anchor=tk.NW)
-#
-#     map = Map(4, 4, canvas)
-#     map.generate_map()
-#     map.generate_player()
-#     map.draw_maze()
-#
-#     #frame for winter olympics banner
-#     frame_banner = tk.Frame(windows, highlightbackground="white", highlightthickness=1, width=width/2, height=80, bd=0)
-#     frame_banner.pack(fill=tk.Y, side=tk.LEFT)
-#
-#     banner_image = Image.open("img.png")
-#     banner_image = banner_image.resize((200, 100), Image.ANTIALIAS)
-#     tk_image1 = ImageTk.PhotoImage(banner_image)
-#     # tk_image1._PhotoImage__photo.subsample(2)
-#     label1 = tk.Label(frame_banner, image=tk_image1)
-#     label1.image = tk_image1
-#     label1.pack()
-#
-#     windows.mainloop()

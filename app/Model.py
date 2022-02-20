@@ -1,3 +1,7 @@
+import random
+import sqlite3
+
+
 class Model:
 
     def __init__(self, username):
@@ -25,3 +29,9 @@ class Question:
         connection.close()
         cursorObj.close()
         return results
+
+    def get_game_info(self, name):
+        pass
+
+    def get_score_list(self):
+        pass
