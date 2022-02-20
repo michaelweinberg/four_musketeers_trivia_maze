@@ -58,6 +58,8 @@ class TriviaView:
                     show_spot += " D"
                 elif room.get_value() == 10:
                     show_spot += " ▲"
+                elif room.get_value() == 5:
+                    show_spot += "  "
             print(show_spot)
         print(" ")
 

@@ -180,6 +180,9 @@ class Question:
         cursorObj.close()
         return results
 
+    def get_player_info(self, name):
+        pass
+
 #
 # def run():
 #

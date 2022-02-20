@@ -1,3 +1,5 @@
+import pickle
+
 from Model import Question
 from TriviaView import TriviaView
 from models.player import Player
@@ -18,6 +20,10 @@ class TriviaController:
     def click_handler(self, name):
         print(name.get() + " is moving")
 
+    def set_name(self):
+        name = input("Please enter your name:\n")
+        self.__player.set_name(name)
+
     def generate_map(self):
         """generate the map with start and destination"""
         self.__map = [[Room(y, x) for x in range(self.__width)] for y in range(self.__height)]
@@ -27,7 +33,7 @@ class TriviaController:
         self.__destination.set_destination()
 
     def generate_player(self):
-        """generate the player at the start point"""
+        """generate the player"""
         x = self.__player.get_x()
         y = self.__player.get_y()
         self.__map[y][x].set_value(10)
@@ -88,6 +94,20 @@ class TriviaController:
         question_data = ["question", "answer"]
         return question_data
 
+    def store_current_game(self):
+        map = self.__map
+        player = self.__player
+        fw = open("triviaDataFile.txt", "wb")
+        pickle.dump(map, fw, -1)
+        pickle.dump(player, fw)
+        fw.close()
+
+    def recover_previous_game(self):
+        fr = open("triviaDataFile.txt", "rb")
+        self.__map = pickle.load(fr)
+        self.__player = pickle.load(fr)
+        fr.close()
+
     def move_character(self):
         """
         get the input from the keyboard and move the player to the direction
@@ -95,7 +115,7 @@ class TriviaController:
         then, if accessible, reprint the map with the player in the new room
         """
         while not self.reach_exit() and not self.game_over():
-            input_var = input("Please enter w/s/a/d:")
+            input_var = input("Please enter w/s/a/d(press u if you want to quit and store current game):\n")
             if input_var == "a":
                 self.enter_west()
             if input_var == "d":
@@ -104,7 +124,11 @@ class TriviaController:
                 self.enter_north()
             if input_var == "s":
                 self.enter_south()
+            if input_var == "u":
+                self.store_current_game()
+                self.start_menu()
             self.generate_player()
+            self.__player.__str__()
             self.__view.print_map(self.__map)
 
     def answer_question(self):
@@ -135,10 +159,16 @@ class TriviaController:
                 print("room has not been visited")
                 res = self.answer_question()
                 if res:
+                    self.__map[self.__player.get_y()][self.__player.get_x()].set_value(5)
                     self.__player.move_west()
+                    self.__player.set_score(10)
                     self.__map[self.__player.get_y()][self.__player.get_x()].set_visited()
+                    self.__map[self.__player.get_y()][self.__player.get_x()].set_question_status_true()
                 if not res:
+                    self.__player.set_score(-10)
                     self.block_room(self.player_y(), self.player_x() - 1)
+                    self.__map[self.__player.get_y()][self.__player.get_x()-1].set_visited()
+                    self.__map[self.__player.get_y()][self.__player.get_x()-1].set_question_status_false()
         else:
             print("room not available")
 
@@ -156,10 +186,16 @@ class TriviaController:
                 print("room has not been visited")
                 res = self.answer_question()
                 if res:
+                    self.__map[self.__player.get_y()][self.__player.get_x()].set_value(5)
                     self.__player.move_east()
+                    self.__player.set_score(10)
                     self.__map[self.__player.get_y()][self.__player.get_x()].set_visited()
+                    self.__map[self.__player.get_y()][self.__player.get_x()].set_question_status_true()
                 if not res:
+                    self.__player.set_score(-10)
                     self.block_room(self.player_y(), self.player_x() + 1)
+                    self.__map[self.__player.get_y()][self.__player.get_x() + 1].set_visited()
+                    self.__map[self.__player.get_y()][self.__player.get_x() + 1].set_question_status_false()
         else:
             print("room not available")
 
@@ -177,10 +213,16 @@ class TriviaController:
                 print("room has not been visited")
                 res = self.answer_question()
                 if res:
+                    self.__map[self.__player.get_y()][self.__player.get_x()].set_value(5)
                     self.__player.move_north()
+                    self.__player.set_score(10)
                     self.__map[self.__player.get_y()][self.__player.get_x()].set_visited()
+                    self.__map[self.__player.get_y()][self.__player.get_x()].set_question_status_true()
                 if not res:
+                    self.__player.set_score(-10)
                     self.block_room(self.player_y()-1, self.player_x())
+                    self.__map[self.__player.get_y() - 1][self.__player.get_x()].set_visited()
+                    self.__map[self.__player.get_y() - 1][self.__player.get_x()].set_question_status_false()
         else:
             print("room not available")
 
@@ -198,10 +240,16 @@ class TriviaController:
                 print("room has not been visited")
                 res = self.answer_question()
                 if res:
+                    self.__map[self.__player.get_y()][self.__player.get_x()].set_value(5)
                     self.__player.move_south()
+                    self.__player.set_score(10)
                     self.__map[self.__player.get_y()][self.__player.get_x()].set_visited()
+                    self.__map[self.__player.get_y()][self.__player.get_x()].set_question_status_true()
                 if not res:
+                    self.__player.set_score(-10)
                     self.block_room(self.player_y()+1, self.player_x())
+                    self.__map[self.__player.get_y() + 1][self.__player.get_x()].set_visited()
+                    self.__map[self.__player.get_y() + 1][self.__player.get_x()].set_question_status_false()
         else:
             print("room not available")
 
@@ -214,18 +262,48 @@ class TriviaController:
     def print_guimap(self):
         self.__view.draw_maze_tk(self.__map)
 
+    def start_menu(self):
+        while True:
+            menu = input("New Game: 1\nContinue Game: 2\nCheck Score List:3\nQuit The Game:4\nPlease Enter:\n")
+            if menu == "1":
+                self.generate_map()
+                self.generate_player()
+                self.set_name()
+                self.print_map()
+                self.move_character()
+            if menu == "2":
+                try:
+                    self.recover_previous_game()
+                    self.print_map()
+                    self.move_character()
+                except OSError:
+                    print("not exist!\nPlease try again!\n")
+                # finally:
+                #     self.start_menu()
+                # name = input("name:\n")
+                # game_from_db = self.__question.get_game_info(name)
+                # self.__map = game_from_db.map
+                # self.__player = game_from_db.player
+                self.print_map()
+                self.move_character()
+            if menu == "3":
+                score_list = self.__question.get_score_list()
+                print(score_list)
+            if menu == "4":
+                quit()
 
-def run():
-    newgame = TriviaController()
-    newgame.generate_map()
-    newgame.generate_player()
-    newgame.print_map()
-    # newgame.move_character()
-    newgame.print_guimap()
+    def run(self):
+        self.generate_map()
+        self.generate_player()
+        self.set_name()
+        self.print_map()
+        self.move_character()
+        # newgame.print_guimap()
 
 
 if __name__ == "__main__":
-    run()
+    newgame = TriviaController()
+    newgame.start_menu()
 
 
 

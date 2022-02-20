@@ -16,7 +16,7 @@ class Player:
         return self.__score
 
     def set_score(self, score):
-        self.__score = score
+        self.__score += score
 
     def get_x(self):
         return self.__x
@@ -45,5 +45,6 @@ class Player:
     def move_south(self):
         self.set_y(self.__y + 1)
 
+
     def __str__(self):
-        print("player:" + self.__name + "score:" + str(self.__score))
+        print("player:" + self.__name + "\nscore:" + str(self.__score))
