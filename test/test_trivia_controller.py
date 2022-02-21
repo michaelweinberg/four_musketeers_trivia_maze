@@ -1,9 +1,7 @@
 import unittest
-
 class TriviaControllerTest(unittest.TestCase):
     def test_init(self):
         pass
-
     def test_generate_map(self):
         pass
 
