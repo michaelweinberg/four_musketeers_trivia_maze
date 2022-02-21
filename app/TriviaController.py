@@ -17,6 +17,12 @@ class TriviaController:
         self.__view = TriviaView()
         self.__question = Question()
 
+    def get_width(self):
+        return self.__width
+
+    def get_height(self):
+        return self.__height
+
     def click_handler(self, name):
         print(name.get() + " is moving")
 
