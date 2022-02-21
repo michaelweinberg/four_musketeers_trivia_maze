@@ -58,23 +58,37 @@ class TriviaControllerTest(unittest.TestCase):
         triviaController.block_room(triviaController.player_y(), triviaController.player_x() + 1)
         assert triviaController.game_over() is True
 
-    # def test_get_question_from_db(self):
-    #     pass
-    #
-    # def test_move_character(self):
-    #     pass
-    #
-    # def test_answer_question(self):
-    #     pass
-    #
-    # def test_enter_west(self):
-    #     pass
-    #
-    # def test_enter_east(self):
-    #     pass
-    #
-    # def test_enter_north(self):
-    #     pass
-    #
-    # def test_enter_south(self):
-    #     pass
+    # Manny's test
+    def test_get_question_from_db(self):
+        question = db.getQuestion()
+        self.assertEqual(question, 'Is this the question?')
+
+    def test_move_character(self):
+        isMoved = character.moved()
+        self.assertEqual(isMoved, True)
+         self.assertNotEqual(isMoved, False)
+
+    def test_answer_question(self):
+        isAnswered = user.answerQuestion()
+        self.assertEqual(isAnswered, True)
+        self.assertNotEqual(isAnswered, False)
+
+    def test_enter_west(self):
+        isEnteredWest = character.enterWest()
+        self.assertEqual(isEnteredWest, True)
+        self.assertNoEqual(isEnteredWest, False)
+
+    def test_enter_east(self):
+        isEnteredEast = character.enterEast()
+        self.assertEqual(isEnteredEast, True)
+        self.assertNotEqual(isEnteredEast, False)
+
+    def test_enter_north(self):
+        isEnteredNorth = character.enterNorth()
+        self.assertEqual(isEnteredNorth, True)
+	    self.assertNotEqual(isEnteredNorth, False)
+    
+    def test_enter_south(self):
+        isEnteredSouth = character.enterSouth()
+        self.assertEqual(isEnteredSouth, True)
+        self.assertNotEqual(isEnteredSouth, False)
