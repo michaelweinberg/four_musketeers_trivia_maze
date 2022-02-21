@@ -31,15 +31,15 @@ class TriviaView:
         for row in map:
             for room in row:
                 print(room.get_value())
-                if room.get_value() == 0:
+                if room.get_value() == 0:  # empty room
                     self.draw_cell(room.get_y(), room.get_x())
-                if room.get_value() == 4:
+                if room.get_value() == 4:  # blocked room
                     self.draw_cell(room.get_y(), room.get_x(), "#525288")
-                if room.get_value() == 2:
+                if room.get_value() == 2:  # start of maze
                     self.draw_cell(room.get_y(), room.get_x(), "#eee83f")
-                if room.get_value() == 3:
+                if room.get_value() == 3:  # end of maze
                     self.draw_cell(room.get_y(), room.get_x(), "#cf52eb")
-                if room.get_value() == 10:
+                if room.get_value() == 10:  # hero in room
                     self.draw_cell(room.get_y(), room.get_x(), "#ee3f4d")
         self.root.mainloop()
 
