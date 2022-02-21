@@ -17,7 +17,7 @@ import time
 #         print("question:" + question)
 
 if __name__== "__main__":
-    cell_width = 40
+    cell_width = 60
     row = 4
     cols = 4
     height = cell_width * row
@@ -26,7 +26,7 @@ if __name__== "__main__":
 
 
     windows = tk.Tk()
-    windows.geometry('600x600')
+    windows.geometry('600x800')
     windows.maxsize(1500,1500)
     windows.title("Winter Olympics Trivia Game")
     windows.resizable(0,0)
@@ -77,7 +77,7 @@ if __name__== "__main__":
 
     #big canvas holds maze
     canvas = tk.Canvas(windows, background="#525288", width=2 * width, height=2 * height)
-    canvas.pack(anchor=tk.NW)
+    canvas.pack(anchor=tk.N)
 
     map = Map(4, 4, canvas)
     map.generate_map()
@@ -96,12 +96,12 @@ if __name__== "__main__":
     #toggle between two frames--room info and question/answer frames
     #Define a function for switching the frames
     def change_to_roominfo():
-        frame_roominfo.pack(fill='both', expand=1, side=RIGHT)
+        frame_roominfo.pack(fill='both', expand=1, anchor=tk.NE)
         # frame_roominfo.grid(row=1, column=3)
         frame_question.pack_forget()
 
     def change_to_question():
-        frame_question.pack(fill='both', expand=1, side=RIGHT)
+        frame_question.pack(fill='both', expand=1, anchor=tk.NE)
         # frame_question.grid(row=1, column=3)
         frame_roominfo.pack_forget()
 
@@ -148,7 +148,7 @@ if __name__== "__main__":
     canvas.create_text(25, 15, fill="black", font="Times 10 italic bold", text="START")
 
     #label end of maze
-    canvas.create_text(280, 310, fill="black", font="Times 10 italic bold", text="FINISH")
+    canvas.create_text(385, 380, fill="black", font="Times 10 italic bold", text="FINISH")
 
     #frame for winter olympics banner
     frame_banner = tk.Frame(windows, highlightbackground="white", highlightthickness=1, width=width/2, height=80, bd=0)
