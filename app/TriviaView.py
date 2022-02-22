@@ -111,10 +111,10 @@ class TriviaView:
         self.label1.image = tk_image1
         self.label1.pack()
 
-        self.map = Map(4, 4, self.canvas)
-        self.map.generate_map()
-        self.map.generate_player()
-        self.map.draw_maze()
+        # self.map = Map(4, 4, self.canvas)
+        # self.map.generate_map()
+        # self.map.generate_player()
+        # self.map.draw_maze()
 
         self.root.mainloop()
 
@@ -203,8 +203,9 @@ class TriviaView:
     def print_question(self, question):
         print("question:" + question)
 
-trivia_view = TriviaView()
-trivia_view.draw_cell()
-trivia_view.draw_maze_tk(map)
+# trivia_view = TriviaView()
+# trivia_view.draw_cell()
+# trivia_view.draw_maze_tk(map)
+# trivia_view.print_map()
 
 
