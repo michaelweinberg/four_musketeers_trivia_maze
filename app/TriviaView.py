@@ -207,5 +207,3 @@ class TriviaView:
 # trivia_view.draw_cell()
 # trivia_view.draw_maze_tk(map)
 # trivia_view.print_map()
-
-

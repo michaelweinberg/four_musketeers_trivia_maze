@@ -1,0 +1,8 @@
+''' These are the required software for the game to operate properly. This file will be update frequently'''
+
+
+peewee 3.14.8
+Arcade 2.6.10
+sqlite 3.38.0
+python 3.9.1
+
