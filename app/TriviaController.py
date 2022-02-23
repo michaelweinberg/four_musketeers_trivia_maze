@@ -7,15 +7,24 @@ from models.room import Room
 
 
 class TriviaController:
-    def __init__(self, width=4, height=4):
-        self.__width = width
-        self.__height = height
+    def __init__(self, windows, view):
+        self.windows = windows
+        self.__width = 4
+        self.__height = 4
         self.__start = None
         self.__destination = None
         self.__map = None
         self.__player = Player()
-        self.__view = TriviaView()
+        self.generate_map()
+        self.generate_player()
+        self.__view = view
         self.__question = Question()
+
+    def move(self):
+        self.windows.bind_all("<KeyPress-Left>", lambda event: self.move_character(event))
+        self.windows.bind_all("<KeyPress-Right>", lambda event: self.move_character(event))
+        self.windows.bind_all("<KeyPress-Up>", lambda event: self.move_character(event))
+        self.windows.bind_all("<KeyPress-Down>", lambda event: self.move_character(event))
 
     def get_width(self):
         return self.__width
@@ -114,42 +123,42 @@ class TriviaController:
         self.__player = pickle.load(fr)
         fr.close()
 
-    def move_character(self):
+    def move_character(self, event):
         """
         get the input from the keyboard and move the player to the direction
         according to the input, call enter_west, enter_east, enter_north, enter_south
         then, if accessible, reprint the map with the player in the new room
         """
-        while not self.reach_exit() and not self.game_over():
-            input_var = input("Please enter w/s/a/d(press u if you want to quit and store current game):\n")
-            if input_var == "a":
+        if not self.reach_exit() and not self.game_over():
+            if event.keysym == "Left":
                 self.enter_west()
-            if input_var == "d":
+            if event.keysym == "Right":
                 self.enter_east()
-            if input_var == "w":
+            if event.keysym == "Up":
                 self.enter_north()
-            if input_var == "s":
+            if event.keysym == "Down":
                 self.enter_south()
-            if input_var == "u":
-                self.store_current_game()
-                self.start_menu()
+            # if input_var == "u":
+            #     self.store_current_game()
+            #     self.start_menu()
             self.generate_player()
             self.__player.__str__()
-            self.__view.print_map(self.__map)
+            self.__view.draw_maze_tk(self.__map)
 
     def answer_question(self):
-        """
-        get question from the database and print it on the screen.
-        if the player choose the right answer, return True
-        if not, return False
-        """
-        self.__view.print_question(self.get_question_from_db()[0])
-        if input("answer") == self.get_question_from_db()[1]:
-            print("right answer")
-            return True
-        else:
-            print("wrong answer")
-            return False
+        return True
+    #     """
+    #     get question from the database and print it on the screen.
+    #     if the player choose the right answer, return True
+    #     if not, return False
+    #     """
+    #     self.__view.print_question(self.get_question_from_db()[0])
+    #     if input("answer") == self.get_question_from_db()[1]:
+    #         print("right answer")
+    #         return True
+    #     else:
+    #         print("wrong answer")
+    #         return False
 
     def enter_west(self):
         """
@@ -262,54 +271,22 @@ class TriviaController:
     def get_map(self):
         return self.__map
 
-    def print_map(self):
-        self.__view.print_map(self.__map)
-
-    def print_guimap(self):
+    def start_new_game(self):
+        print("start new game in controller")
+        for row in self.__map:
+            for room in row:
+                room.set_value(0)
+        self.generate_map()
+        self.__player.set_x(0)
+        self.__player.set_y(0)
+        self.generate_player()
         self.__view.draw_maze_tk(self.__map)
 
-    def start_menu(self):
-        while True:
-            menu = input("New Game: 1\nContinue Game: 2\nCheck Score List:3\nQuit The Game:4\nPlease Enter:\n")
-            if menu == "1":
-                self.generate_map()
-                self.generate_player()
-                self.set_name()
-                self.print_map()
-                self.move_character()
-            if menu == "2":
-                try:
-                    self.recover_previous_game()
-                    self.print_map()
-                    self.move_character()
-                except OSError:
-                    print("not exist!\nPlease try again!\n")
-                # finally:
-                #     self.start_menu()
-                # name = input("name:\n")
-                # game_from_db = self.__question.get_game_info(name)
-                # self.__map = game_from_db.map
-                # self.__player = game_from_db.player
-                self.print_map()
-                self.move_character()
-            if menu == "3":
-                score_list = self.__question.get_score_list()
-                print(score_list)
-            if menu == "4":
-                quit()
-
-    def run(self):
-        self.generate_map()
-        self.generate_player()
-        self.set_name()
-        self.print_map()
-        self.move_character()
-        # newgame.print_guimap()
+        self.__view.draw_question_box()
+        self.__view.draw_menu(self.start_new_game)
+        self.move()
 
 
-if __name__ == "__main__":
-    newgame = TriviaController()
-    newgame.start_menu()
 
 
 

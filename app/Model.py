@@ -9,20 +9,20 @@ class Model:
 
     def get_username(self):
         return self.username
-    
-     def save_game():
-        ''' creates the information to be saved'''
-        saved = {"user.name", "current_score","current_location\n"}
-        '''save the game'''
-        pickle.dump(saved, with open("saved.data", "wb"))
-
-    def load_game():
-    """Load game state from a predefined savegame location and return the
-    game state contained in that savegame.
-    """
-    with open(SAVEGAME_FILENAME, 'r') as savegame:
-        state = jsonpickle.decode(savegame.read())
-    return state
+    #
+    #  def save_game():
+    #     ''' creates the information to be saved'''
+    #     saved = {"user.name", "current_score","current_location\n"}
+    #     '''save the game'''
+    #     pickle.dump(saved, with open("saved.data", "wb"))
+    #
+    # def load_game():
+    # """Load game state from a predefined savegame location and return the
+    # game state contained in that savegame.
+    # """
+    # with open(SAVEGAME_FILENAME, 'r') as savegame:
+    #     state = jsonpickle.decode(savegame.read())
+    # return state
 
 
 def save_game():
