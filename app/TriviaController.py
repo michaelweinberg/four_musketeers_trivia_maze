@@ -144,7 +144,10 @@ class TriviaController:
             self.generate_player()
             self.__player.__str__()
             self.__view.draw_maze_tk(self.__map)
-
+            # print(self.__question.get_question())
+            (question, answer) = self.__question.get_question()
+            self.__view.draw_question_box(question, answer)
+            
     def answer_question(self):
         return True
     #     """
@@ -282,7 +285,7 @@ class TriviaController:
         self.generate_player()
         self.__view.draw_maze_tk(self.__map)
 
-        self.__view.draw_question_box()
+        # self.__view.draw_question_box(question, answer)
         self.__view.draw_menu(self.start_new_game)
         self.move()
 

@@ -4,7 +4,7 @@ from tkinter import ttk
 from Model import Model
 from TriviaView import TriviaView
 from TriviaController import TriviaController
-from util.seed_db import seed
+# from util.seed_db import seed
 
 class App():
     # def __init__(self):
@@ -13,6 +13,7 @@ class App():
     len = 64
     view = TriviaView(windows, "640x640", "TriviaMaze", len)
     controller = TriviaController(windows, view)
+    
     # map = controller.get_map()
     controller.start_new_game()
 
@@ -20,6 +21,6 @@ class App():
 
 if __name__ == '__main__':
 
-    seed()
+    # seed()
     app = App()
 

@@ -45,11 +45,11 @@ class Question:
     def _dbselect(self):
         connection = sqlite3.connect("mydb.db")
         cursorObj = connection.cursor()
-        id = random.Random(0, 60)
-        result = cursorObj.execute("select * from question where id=%id " %id)
+        id = int(random.random() * 64 + 1)
+        result = cursorObj.execute("select Question, Answer from question where id=?", [id])
         results = result.fetchall()
-        connection.close()
         cursorObj.close()
+        connection.close()
         return results
 
     def get_game_info(self, name):

@@ -19,11 +19,13 @@ class TriviaView:
     def answer_false(self):
         pass
 
-    def draw_question_box(self):
-        # question_box = tk.Entry(self.windows, show=str(question))
-        # question_box.place(x=100,y=450)
+    def draw_question_box(self, question, answer):
+        question_box = tk.Label(self.windows, text=str(question))
+        question_box.place(x=100,y=450)
 
-        button_true = tk.Button(self.windows, text="Ture", command=self.answer_right())
+        self.answer = answer
+
+        button_true = tk.Button(self.windows, text="True", command=self.answer_right())
         button_true.place(x=300,y=600)
         button_false = tk.Button(self.windows, text="False", command=self.answer_false())
         button_false.place(x=340,y=600)
