@@ -20,7 +20,7 @@ class Model:
     # """Load game state from a predefined savegame location and return the
     # game state contained in that savegame.
     # """
-    # with open(SAVEGAME_FILENAME, 'r') as savegame:
+    # with gopen(SAVEGAME_FILENAME, 'r') as savegame:
     #     state = jsonpickle.decode(savegame.read())
     # return state
 

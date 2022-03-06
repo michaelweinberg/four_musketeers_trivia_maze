@@ -15,11 +15,12 @@ class App():
     controller = TriviaController(windows, view)
     # map = controller.get_map()
     controller.start_new_game()
-
+    controller.store_current_game()
+    print("starting app")
+    seed()
     windows.mainloop()
 
 if __name__ == '__main__':
 
-    seed()
     app = App()
 

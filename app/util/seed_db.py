@@ -2,6 +2,7 @@ import sqlite3
 import csv
 # todo: script to seed database before initializing app
 def seed():
+    print("SEEDING")
     con = sqlite3.connect("data.db")
     cObj = con.cursor()
 

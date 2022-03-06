@@ -1,9 +1,13 @@
 import pickle
+import jsonpickle
+import json
+from json import JSONEncoder
 
 from Model import Question
 from TriviaView import TriviaView
 from models.player import Player
 from models.room import Room
+import util.model_functions as mf
 
 
 class TriviaController:
@@ -116,6 +120,12 @@ class TriviaController:
         pickle.dump(map, fw, -1)
         pickle.dump(player, fw)
         fw.close()
+
+        playerJSON = jsonpickle.encode(player, unpicklable=False)
+        playerJSONData = json.dumps(playerJSON)
+        mf.save_game("Mike", playerJSONData)
+        print("Player JSON")
+        print(playerJSONData)
 
     def recover_previous_game(self):
         fr = open("triviaDataFile.txt", "rb")
