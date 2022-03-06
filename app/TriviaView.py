@@ -12,24 +12,46 @@ class TriviaView:
         self.windows.title(string=self.title)
         self.canvas = tk.Canvas(self.windows, background=None, width=640, height=640)
         self.canvas.pack()
+        self.question_text = tk.StringVar()
+        self.answer_text = tk.StringVar()
+        self.question_box = tk.Label(self.windows, textvariable= self.question_text, wraplength=250)
+        self.answer_box = tk.Label(self.windows, textvariable= self.answer_text, wraplength=250)
 
-    def answer_right(self):
-        pass
 
-    def answer_false(self):
-        pass
+    def answered_true(self):
+        if self.answer == True:
+            # print("You are correct and you may enter")
+            self.answer_text.set("You are correct and you may enter")
+        
+        else:
+            # print("You are incorrect and the door is locked")
+            self.answer_text.set("You are incorrect and the door is locked")
+
+    def answered_false(self):
+        if self.answer == False:
+            # print("You are correct and you may enter")
+            self.answer_text.set("You are correct and you may enter")
+        
+        else:
+            # print("You are incorrect and the door is locked")
+            self.answer_text.set("You are incorrect and the door is locked")
+
 
     def draw_question_box(self, question, answer):
-        question_box = tk.Label(self.windows, text=str(question))
-        question_box.place(x=100,y=450)
+        self.question_text.set(question)
+        # question_box = tk.Label(self.windows, text=str(question), wraplength=250)
+        self.question_box.place(x=100,y=450)
 
         self.answer = answer
 
-        button_true = tk.Button(self.windows, text="True", command=self.answer_right())
+        button_true = tk.Button(self.windows, text="True", command=self.answered_true)
         button_true.place(x=300,y=600)
-        button_false = tk.Button(self.windows, text="False", command=self.answer_false())
+        button_false = tk.Button(self.windows, text="False", command=self.answered_false)
         button_false.place(x=340,y=600)
 
+    def draw_answer_box(self):
+        self.answer_box.place(x=100, y=600)
+        
     def callback(self):
         print("called~")
 

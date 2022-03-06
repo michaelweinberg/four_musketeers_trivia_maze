@@ -39,7 +39,10 @@ class Question:
         result = []
         for row in summary:
             result.append(row[0])
-            result.append(row[1])
+            if row[1] == "TRUE":    
+                result.append(True)
+            else:
+                result.append(False)
         return result
 
     def _dbselect(self):

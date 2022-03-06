@@ -147,6 +147,7 @@ class TriviaController:
             # print(self.__question.get_question())
             (question, answer) = self.__question.get_question()
             self.__view.draw_question_box(question, answer)
+            self.__view.draw_answer_box()
             
     def answer_question(self):
         return True
