@@ -12,13 +12,29 @@ class TriviaView:
         self.windows.title(string=self.title)
         self.canvas = tk.Canvas(self.windows, background=None, width=640, height=640)
         self.canvas.pack()
+        self.asking_question = False
         self.question_text = tk.StringVar()
         self.answer_text = tk.StringVar()
-        self.question_box = tk.Label(self.windows, textvariable= self.question_text, wraplength=250)
-        self.answer_box = tk.Label(self.windows, textvariable= self.answer_text, wraplength=250)
-
+        self.question_box = tk.Label(self.windows, textvariable= self.question_text, wraplength=300)
+        self.answer_box = tk.Label(self.windows, textvariable= self.answer_text, wraplength=300)
+        self.button_true = tk.Button(self.windows, text="True", command=self.answered_true)
+        self.button_false = tk.Button(self.windows, text="False", command=self.answered_false)
+        self.button_true.place(x=-300, y=600)
+        self.button_false.place(x=-340, y=600)
+        self.question_box.place(x=100, y=450)
+        self.question_text.set("Please use the arrow keys to move")
+        
+        # self.button_true["state"] == "disabled"
+        # self.button_false["state"] == "disabled"
 
     def answered_true(self):
+        # self.button_true["state"] == "disabled"
+        # self.button_false["state"] == "disabled"
+        self.button_true.place(x=-300, y=600)
+        self.button_false.place(x=-340, y=600)
+        self.asking_question = False
+        self.question_text.set("Please use the arrow keys to move")
+
         if self.answer == True:
             # print("You are correct and you may enter")
             self.answer_text.set("You are correct and you may enter")
@@ -28,6 +44,13 @@ class TriviaView:
             self.answer_text.set("You are incorrect and the door is locked")
 
     def answered_false(self):
+        # self.button_true["state"] == "disabled"
+        # self.button_false["state"] == "disabled"
+        self.button_true.place(x=-300, y=600)
+        self.button_false.place(x=-340, y=600)
+        self.asking_question = False
+        self.question_text.set("Please use the arrow keys to move")
+
         if self.answer == False:
             # print("You are correct and you may enter")
             self.answer_text.set("You are correct and you may enter")
@@ -38,19 +61,23 @@ class TriviaView:
 
 
     def draw_question_box(self, question, answer):
+        # self.button_true["state"] == "normal"
+        # self.button_false["state"] == "normal"
+        self.button_true.place(x=300, y=600)
+        self.button_false.place(x=340, y=600)
         self.question_text.set(question)
         # question_box = tk.Label(self.windows, text=str(question), wraplength=250)
-        self.question_box.place(x=100,y=450)
+
+        self.asking_question = True
 
         self.answer = answer
 
-        button_true = tk.Button(self.windows, text="True", command=self.answered_true)
-        button_true.place(x=300,y=600)
-        button_false = tk.Button(self.windows, text="False", command=self.answered_false)
-        button_false.place(x=340,y=600)
+
+
 
     def draw_answer_box(self):
         self.answer_box.place(x=100, y=600)
+        self.answer_text.set("")
         
     def callback(self):
         print("called~")

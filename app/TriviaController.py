@@ -89,13 +89,13 @@ class TriviaController:
         self.__map[y][x].set_block()
         self.__map[y][x].set_visited()
 
-    def reach_exit(self):
+    def has_reached_exit(self):
         """check if the player has reached the destination"""
         if self.__player.get_x() == self.__width - 1 and self.__player.get_y() == self.__height - 1:
             return True
         return False
 
-    def game_over(self):
+    def is_game_over(self):
         """check if there is not room available to move, end the game"""
         if not self.movement_available(self.player_y() + 1, self.player_x()) and \
                 not self.movement_available(self.player_y() - 1, self.player_x()) and \
@@ -129,7 +129,11 @@ class TriviaController:
         according to the input, call enter_west, enter_east, enter_north, enter_south
         then, if accessible, reprint the map with the player in the new room
         """
-        if not self.reach_exit() and not self.game_over():
+        if self.__view.asking_question:
+            return
+        if self.has_reached_exit():
+            exit()
+        if not self.is_game_over():
             if event.keysym == "Left":
                 self.enter_west()
             if event.keysym == "Right":
