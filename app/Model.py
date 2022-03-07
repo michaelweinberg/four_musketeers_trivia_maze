@@ -2,13 +2,13 @@ import random
 import sqlite3
 
 
-class Model:
-
-    def __init__(self, username):
-        self.username = username
-
-    def get_username(self):
-        return self.username
+# class Model:
+#
+#     def __init__(self, username):
+#         self.username = username
+#
+#     def get_username(self):
+#         return self.username
     #
     #  def save_game():
     #     ''' creates the information to be saved'''
@@ -24,13 +24,13 @@ class Model:
     #     state = jsonpickle.decode(savegame.read())
     # return state
 
-
-def save_game():
-    """Save the current game state to a savegame in a predefined location.
-    """
-    global game_state
-    with open(SAVEGAME_FILENAME, 'w') as savegame:
-        savegame.write(jsonpickle.encode(game_state))
+#
+# def save_game():
+#     """Save the current game state to a savegame in a predefined location.
+#     """
+#     global game_state
+#     with open(SAVEGAME_FILENAME, 'w') as savegame:
+#         savegame.write(jsonpickle.encode(game_state))
 
 
 class Question:
@@ -46,7 +46,7 @@ class Question:
         return result
 
     def _dbselect(self):
-        connection = sqlite3.connect("mydb.db")
+        connection = sqlite3.connect("data.db")
         cursorObj = connection.cursor()
         id = int(random.random() * 64 + 1)
         result = cursorObj.execute("select Question, Answer from question where id=?", [id])
