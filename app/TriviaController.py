@@ -284,6 +284,7 @@ class TriviaController:
         for row in self.__map:
             for room in row:
                 room.set_value(0)
+        self.__view.reset_view()
         self.generate_map()
         self.__player.set_x(0)
         self.__player.set_y(0)

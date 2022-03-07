@@ -12,21 +12,24 @@ class TriviaView:
         self.windows.title(string=self.title)
         self.canvas = tk.Canvas(self.windows, background=None, width=640, height=640)
         self.canvas.pack()
-        self.asking_question = False
+        
         self.question_text = tk.StringVar()
         self.answer_text = tk.StringVar()
         self.question_box = tk.Label(self.windows, textvariable= self.question_text, wraplength=300)
         self.answer_box = tk.Label(self.windows, textvariable= self.answer_text, wraplength=300)
         self.button_true = tk.Button(self.windows, text="True", command=self.answered_true)
         self.button_false = tk.Button(self.windows, text="False", command=self.answered_false)
+        
+        self.reset_view()
+        # self.button_true["state"] == "disabled"
+        # self.button_false["state"] == "disabled"
+    def reset_view(self):
+        self.asking_question = False
         self.button_true.place(x=-300, y=600)
         self.button_false.place(x=-340, y=600)
         self.question_box.place(x=100, y=450)
         self.question_text.set("Please use the arrow keys to move")
-        
-        # self.button_true["state"] == "disabled"
-        # self.button_false["state"] == "disabled"
-
+        self.answer_text.set("")
     def answered_true(self):
         # self.button_true["state"] == "disabled"
         # self.button_false["state"] == "disabled"
