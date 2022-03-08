@@ -78,32 +78,7 @@ class TriviaView:
     def draw_answer_box(self):
         self.answer_box.place(x=100, y=600)
         self.answer_text.set("")
-        self.answer = None
-
-
-    def answer_ture(self):
-        self.answer = True
-
-    def answer_false(self):
-        self.answer = False
-
-    def answer(self):
-        return self.answer
-    #
-    # def draw_question_box(self, question):
-    #     question_box = tk.Label(self.windows, bitmap="question", compound="left", text=question)
-    #     question_box.place(x=100,y=450)
-
-    def draw_answer(self):
-        button_true = tk.Button(self.windows, text="Ture", command=lambda: self.answer_ture)
-        button_true.place(x=300,y=600)
-        button_false = tk.Button(self.windows, text="False", command=lambda: self.answer_false)
-        button_false.place(x=340,y=600)
-
-
-    def reset_question_box(self):
-        self.answer = None
-
+        
     def callback(self):
         print("called~")
 
@@ -133,6 +108,7 @@ class TriviaView:
     def draw_maze_tk(self, map):
         for row in map:
             for room in row:
+                print(room.get_value())
                 if room.visited_status():
                     self.draw_cell(room.get_y(), room.get_x(), "#8B0000")
                 if room.get_value() == 0:  # empty room
