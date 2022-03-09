@@ -1,6 +1,6 @@
 import sqlite3
 
-con = sqlite3.connect('Questions.db')
+con = sqlite3.connect('../mydb.db')
 cObj = con.cursor()
 
 
@@ -13,7 +13,14 @@ def create_table():
 def insert_value(id, name, country, age, medals):
     cObj.execute("INSERT INTO athletic VALUES(?, ?, ?, ?, ?)", (id, name, country, age, medals))
     con.commit()
+    
+def save_game(name, model):
+    cObj.execute("INSERT INTO games VALUES(?, ?)", (name, model))
+    con.commit()
 
+def load_game(id, name):
+    cObj.execute("SELECT * from games name=?", (name))
+    con.commit()
 
 def data_fetch():
     cObj.execute("SELECT * FROM athletic")

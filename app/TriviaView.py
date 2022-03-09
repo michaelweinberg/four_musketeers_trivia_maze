@@ -3,7 +3,7 @@ import tkinter as tk
 
 
 class TriviaView:
-    def __init__(self, windows, size,title,s):
+    def __init__(self, windows, size, title, s):
         self.windows = windows
         self.size = size
         self.title = title
@@ -23,9 +23,18 @@ class TriviaView:
         self.button_false.place(x=-340, y=600)
         self.question_box.place(x=100, y=450)
         self.question_text.set("Please use the arrow keys to move")
+        self.controller = None
         
         # self.button_true["state"] == "disabled"
         # self.button_false["state"] == "disabled"
+
+    def set_controller(self, controller):
+        """
+        set the contoller
+        :param controller
+        """
+        self.controller = controller
+        print("controller set", self.controller)
 
     def answered_true(self):
         # self.button_true["state"] == "disabled"
@@ -82,13 +91,17 @@ class TriviaView:
     def callback(self):
         print("called~")
 
+    def save(self):
+        if self.controller:
+            self.controller.store_current_game()
+
     def draw_menu(self, start_game_func):
         print("menu set up")
         menubase = tkinter.Menu(self.windows)
         menubar = tkinter.Menu(menubase, tearoff=False)
         menubar.add_command(label="Start Game",command=start_game_func)
         menubar.add_command(label="Continue Game",command=self.callback)
-        menubar.add_command(label="Save Game",command=self.callback)
+        menubar.add_command(label="Save Game",command=self.save)
         menubar.add_command(label="Exit Game",command=self.windows.quit)
         menubase.add_cascade(label="Menu",menu=menubar)
         self.windows.config(menu=menubase)
