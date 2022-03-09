@@ -1,5 +1,6 @@
 import pickle
-
+import time
+import threading
 from Model import Question
 from TriviaView import TriviaView
 from models.player import Player
@@ -13,18 +14,20 @@ class TriviaController:
         initial a 4x4 maze, a TriviaView to display the maze, a player module and question module
         :param windows: tkinter UI
         """
+        self.cond = None
         self.windows = windows
         self.__player = Player()
         self.__map = None
         self.__view = TriviaView(windows, "640x640", "TriviaMaze", 64)
         self.__question = Question()
+        self.__answer_status = None
 
     def start_new_game(self):
         """
         start a new game, set each room value to 0 as initial state,
         set the player to the start point, and redraw the maze in Tk.
         """
-        new_map = [[Room(y, x) for x in range(4)] for y in range(4)]
+        new_map = [[Room(y, x) for x in range(6)] for y in range(6)]
         self.__map = Map(new_map)
         self.__map.generate_map()
         self.__player.generate_player()
@@ -69,69 +72,84 @@ class TriviaController:
         """
         if self.__view.asking_question:
             return
-        # if self.__map.has_reached_exit():
-        #     exit()
+        if self.__map.has_reached_exit():
+            exit()
         if not self.__map.has_reach_exit(self.__player.get_y(), self.__player.get_x()) \
                 and not self.__map.is_game_over(self.__player.get_y(), self.__player.get_x()):
-            res = self.answer_question()
-            if event.keysym == "Left":
-                self.__map.enter_room(self.__player.get_y(), self.__player.get_x()-1, res, self.__player)
-            if event.keysym == "Right":
-                self.__map.enter_room(self.__player.get_y(), self.__player.get_x() + 1, res, self.__player)
-            if event.keysym == "Up":
-                self.__map.enter_room(self.__player.get_y() - 1, self.__player.get_x(), res, self.__player)
-            if event.keysym == "Down":
-                self.__map.enter_room(self.__player.get_y() + 1, self.__player.get_x(), res, self.__player)
-            # self.__map.generate_player()
-            self.__player.__str__()
-            self.__view.draw_maze_tk(self.__map.get_map())
-            # print(self.__question.get_question())
-            (question, answer) = self.__question.get_question()
-            self.__view.draw_question_box(question, answer)
-            self.__view.draw_answer_box()
-            
-    def answer_question(self):
-        return True
-    #     """
-    #     get question from the database and print it on the screen.
-    #     if the player choose the right answer, return True
-    #     if not, return False
-    #     """
-    #     self.__view.print_question(self.get_question_from_db()[0])
-    #     if input("answer") == self.get_question_from_db()[1]:
-    #         print("right answer")
-    #         return True
+            if self.get_answer_status():
+                if event.keysym == "Left":
+                    print("l")
+                    self.__map.movement_available(self.__player.get_y(), self.__player.get_x()-1)
+                    self.__map.enter_room(self.__player.get_y(), self.__player.get_x()-1, self.__player)
+                if event.keysym == "Right":
+                    print("r")
+                    self.__map.movement_available(self.__player.get_y(), self.__player.get_x()+1)
+                    self.__map.enter_room(self.__player.get_y(), self.__player.get_x() + 1, self.__player)
+                if event.keysym == "Up":
+                    self.__map.movement_available(self.__player.get_y()-1, self.__player.get_x())
+                    self.__map.enter_room(self.__player.get_y() - 1, self.__player.get_x(), self.__player)
+                if event.keysym == "Down":
+                    self.__map.movement_available(self.__player.get_y()+1, self.__player.get_x())
+                    self.__map.enter_room(self.__player.get_y() + 1, self.__player.get_x(), self.__player)
+                # self.__map.generate_player()
+            else:
+                if event.keysym == "Left":
+                    self.__map.wrong_answer_block_room(self.__player.get_y(), self.__player.get_x()-1, self.__player)
+                if event.keysym == "Right":
+                    print("r")
+                    self.__map.wrong_answer_block_room(self.__player.get_y(), self.__player.get_x() + 1, self.__player)
+                if event.keysym == "Up":
+                    self.__map.wrong_answer_block_room(self.__player.get_y() - 1, self.__player.get_x(), self.__player)
+                if event.keysym == "Down":
+                    self.__map.wrong_answer_block_room(self.__player.get_y() + 1, self.__player.get_x(), self.__player)
+    #     self.cond = threading.Condition()
+    #     threading.Thread(target=self.move_step1(event)).start()
+    #     threading.Thread(target=self.move_step2()).start()
+    #
+    # def move_step1(self, event):
+    #     with self.cond:
+    #         # for i in range(1):
+    #         #     time.sleep(1)
+    #         print(threading.currentThread().name,"move_step1")
+    #         (question, answer) = self.__question.get_question()
+    #         print(self.__question.get_question())
+    #         self.__view.draw_question_box(question, answer)
+    #         self.__view.draw_answer_box()
+    #         # if i ==0:
+    #         self.cond.wait()
+    #         res = self.__view.answer_to_pass
+    #         self.__map.enter_room2(self.__player, event, res)
+    #         self.__player.__str__()
+    #         self.__view.draw_maze_tk(self.__map.get_map())
+    #
+    # def move_step2(self):
+    #     with self.cond:
+    #         # for i in range(1):
+    #         #     time.sleep(1)
+    #         print(threading.currentThread().name, "move_step2")
+    #         if self.__view.answer_to_pass != 0:
+    #             print("get_answer_status in step2")
+    #             print(self.__view.answer_to_pass)
+    #             self.cond.notify()
+
+    # def get_answer_status(self):
+    #     (question, answer) = self.__question.get_question()
+    #     print(self.__question.get_question())
+    #     self.__view.draw_question_box(question, answer)
+    #     self.__view.draw_answer_box()
+    #     if self.__view.asking_question:
+    #         print("asking question true")
+    #         return
     #     else:
-    #         print("wrong answer")
-    #         return False
-    #     self.__view.draw_maze_tk(self.__map.get_map())
+    #         print("asking question wrong")
     #
-    # def get_question_from_db(self):
-    #     question_data = self.__question.get_question()
-    #     question = [question_data[2], question_data[3]]
-    #     return question
-    #
-    # def answer_question(self):
-    #     # return True
-    #     """
-    #     get question from the database and print it on the screen.
-    #     if the player choose the right answer, return True
-    #     if not, return False
-    #     """
-    #     # self.__view.draw_question_box(self.get_question_from_db()[0])
-    #     self.__view.draw_question_box("question?")
-    #     self.__view.draw_answer()
-    #     res = self.__view.answer()
-    #
-    #     # if input("answer") == self.get_question_from_db()[1]:
-    #     if res == True:
-    #         self.__view.reset_question_box()
-    #         print("right answer")
-    #         return True
-    #     elif res == False:
-    #         self.__view.reset_question_box()
-    #         print("wrong answer")
-    #         return False
+    #         print("get_answer_status")
+    #         print(self.__view.answer_to_pass)
+    #         if self.__view.answer_to_pass == 1:
+    #             return True
+    #         if self.__view.answer_to_pass == 2:
+    #             return False
+            
 
 
     def click_handler(self, name):

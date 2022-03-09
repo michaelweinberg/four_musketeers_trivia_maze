@@ -6,8 +6,8 @@ class Map:
     """
 
     def __init__(self, new_map):
-        self.__width = 4
-        self.__height = 4
+        self.__width = 6
+        self.__height = 6
         self.__start = None
         self.__destination = None
         self.__map = new_map
@@ -15,39 +15,35 @@ class Map:
     def get_map(self):
         return self.__map
 
-    # def print_map(self):
-    #     """show the map in the console"""
-    #     for row in self.__map:
-    #         show_spot = ""
-    #         for room in row:
-    #             if room.get_value() == 0:
-    #                 show_spot += " ."
-    #             elif room.get_value() == 1:
-    #                 show_spot += " □"
-    #             elif room.get_value() == 2:
-    #                 show_spot += " S"
-    #             elif room.get_value() == 3:
-    #                 show_spot += " D"
-    #             elif room.get_value() == 10:
-    #                 show_spot += " ▲"
-    #         print(show_spot)
-    #     print(" ")
-
     def generate_map(self):
-        """generate the map with start and destination"""
+        """
+        generate the map with start and destination
+        also add padding area around the map set padding room with value 11
+        """
         for row in self.__map:
             for room in row:
-                room.set_value(0)
-        self.__start = self.__map[0][0]
+                room.set_value(11) #padding room added
+        for y in range(1, self.__height - 1):
+            for x in range(1, self.__width - 1):
+                self.__map[y][x].set_value(0)
+        for row in self.__map:
+            for room in row:
+                if room.get_value()==11:
+                    room.set_wall()
+        self.__start = self.__map[1][1]
         self.__start.set_start()
-        self.__destination = self.__map[self.__height - 1][self.__width - 1]
+        self.__destination = self.__map[self.__height - 2][self.__width - 2]
         self.__destination.set_destination()
 
     def movement_available(self, y, x):
-        if x in range(0, self.__width) and y in range(0, self.__height) \
-                and self.__map[y][x].get_value() != 4 and not self.__map[y][x].visited_status():
+        print("check room available")
+        if x in range(1, self.__width-1) and y in range(1, self.__height-1) \
+                and self.__map[y][x].get_value() != 4 \
+                and not self.__map[y][x].visited_status():
+            print("room available")
             return True
         else:
+            print("not available")
             return False
 
     def block_room(self, y, x):
@@ -59,7 +55,7 @@ class Map:
 
     def has_reach_exit(self, y, x):
         """check if the player has reached the destination"""
-        if x == self.__width - 1 and y == self.__height - 1:
+        if x == self.__width - 2 and y == self.__height - 2:
             return True
         return False
 
@@ -79,7 +75,7 @@ class Map:
         room = self.__map[y][x]
         return room
 
-    def enter_room(self, y, x, res, player):
+    def enter_room(self, y, x, player):
         """
         move the player to the room on the west
         check to see if the room on the east is available to move in.
@@ -90,21 +86,46 @@ class Map:
             if self.__map[y][x].visited_status():
                 print("room has been visited")
             else:
-                print("room has not been visited")
-                # res = self.answer_question()
-                if res is True:
-                    self.__map[player.get_y()][player.get_x()].set_value(5)
-                    player.move(y, x)
-                    player.set_score(10)
-                    self.__map[y][x].set_value(10)
-                    self.__map[player.get_y()][player.get_x()].set_visited()
-                    self.__map[player.get_y()][player.get_x()].set_question_status_true()
-                if res is False:
-                    player.set_score(-10)
-                    self.block_room(y, x)
-                    self.__map[y][x].set_question_status_false()
-        else:
-            print("room not available")
+                print("room has not been visited answer right")
+                self.__map[player.get_y()][player.get_x()].set_value(5)
+                player.move(y, x)
+                player.set_score(10)
+                self.__map[y][x].set_value(10)
+                self.__map[player.get_y()][player.get_x()].set_visited()
+                self.__map[player.get_y()][player.get_x()].set_question_status_true()
+
+    def wrong_answer_block_room(self, y, x, player):
+        print("room has not been visited answer wrong")
+        player.set_score(-10)
+        self.block_room(y, x)
+        self.__map[y][x].set_question_status_false()
+
+    def enter_room2(self, player, event, res):
+        if not self.has_reach_exit(player.get_y(), player.get_x()) \
+                and not self.is_game_over(player.get_y(), player.get_x()):
+            if res ==1:
+                if event.keysym == "Left":
+                    print("l")
+                    self.enter_room(player.get_y(), player.get_x() - 1, player)
+                if event.keysym == "Right":
+                    print("r")
+                    self.enter_room(player.get_y(), player.get_x() + 1, player)
+                if event.keysym == "Up":
+                    self.enter_room(player.get_y() - 1, player.get_x(), player)
+                if event.keysym == "Down":
+                    self.enter_room(player.get_y() + 1, player.get_x(), player)
+                # self.__map.generate_player()
+            elif res == 2:
+                if event.keysym == "Left":
+                    self.wrong_answer_block_room(player.get_y(), player.get_x() - 1, player)
+                if event.keysym == "Right":
+                    print("r")
+                    self.wrong_answer_block_room(player.get_y(), player.get_x() + 1, player)
+                if event.keysym == "Up":
+                    self.wrong_answer_block_room(player.get_y() - 1, player.get_x(), player)
+                if event.keysym == "Down":
+                    self.wrong_answer_block_room(player.get_y() + 1, player.get_x(), player)
+
 
 #
 # def run():
