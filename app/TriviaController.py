@@ -11,8 +11,9 @@ import util.model_functions as mf
 
 
 class TriviaController:
-    def __init__(self, windows, view):
-        self.windows = windows
+    def __init__(self, view):
+        self.__view = view
+        self.windows = view.windows
         self.__width = 4
         self.__height = 4
         self.__start = None
@@ -21,7 +22,6 @@ class TriviaController:
         self.__player = Player()
         self.generate_map()
         self.generate_player()
-        self.__view = view
         self.__question = Question()
 
     def move(self):
@@ -120,7 +120,6 @@ class TriviaController:
         pickle.dump(map, fw, -1)
         pickle.dump(player, fw)
         fw.close()
-
         playerJSON = jsonpickle.encode(player, unpicklable=False)
         playerJSONData = json.dumps(playerJSON)
         mf.save_game("Mike", playerJSONData)
@@ -294,6 +293,7 @@ class TriviaController:
         for row in self.__map:
             for room in row:
                 room.set_value(0)
+        # remove generate_map() call and use instance of Model passed into TriviaController
         self.generate_map()
         self.__player.set_x(0)
         self.__player.set_y(0)
