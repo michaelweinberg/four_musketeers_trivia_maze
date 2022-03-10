@@ -1,5 +1,6 @@
 import tkinter
 import tkinter as tk
+import tkinter.messagebox
 
 
 class TriviaView:
@@ -12,122 +13,20 @@ class TriviaView:
         self.windows.title(string=self.title)
         self.canvas = tk.Canvas(self.windows, background=None, width=640, height=640)
         self.canvas.pack()
-        self.asking_question = False
-        self.question_text = tk.StringVar()
-        self.answer_text = tk.StringVar()
-        # self.question_box = tk.Label(self.windows, textvariable= self.question_text, wraplength=300)
-        # self.answer_box = tk.Label(self.windows, textvariable= self.answer_text, wraplength=300)
-        # self.button_true = tk.Button(self.windows, text="True",command=self.answered_true)
-        # self.button_false = tk.Button(self.windows, text="False", command=self.answered_false)
-        # self.button_true.place(x=-300, y=600)
-        # self.button_false.place(x=-340, y=600)
-        # self.question_box.place(x=100, y=450)
-        self.question_text.set("Please use the arrow keys to move")
-        self.answer_to_pass = 0
-        self.answer = None
-        
-        # self.button_true["state"] == "disabled"
-        # self.button_false["state"] == "disabled"
-    #
-    # def answered_true(self):
-    #     # self.button_true["state"] == "disabled"
-    #     # self.button_false["state"] == "disabled"
-    #     self.button_true.place(x=-300, y=600)
-    #     self.button_false.place(x=-340, y=600)
-    #     self.asking_question = False
-    #     self.question_text.set("Please use the arrow keys to move")
-    #
-    #
-    #     if self.answer == True:
-    #         # print("You are correct and you may enter")
-    #         self.answer_text.set("You are correct and you may enter")
-    #         self.answer_to_pass = 1
-    #     else:
-    #         # print("You are incorrect and the door is locked")
-    #         self.answer_to_pass = 2
-    #         self.answer_text.set("You are incorrect and the door is locked")
-    #
-    # def answered_false(self):
-    #     # self.button_true["state"] == "disabled"
-    #     # self.button_false["state"] == "disabled"
-    #     self.button_true.place(x=-300, y=600)
-    #     self.button_false.place(x=-340, y=600)
-    #     self.asking_question = False
-    #     self.question_text.set("Please use the arrow keys to move")
-    #
-    #
-    #     if self.answer == False:
-    #         # print("You are correct and you may enter")
-    #         self.answer_text.set("You are correct and you may enter")
-    #         self.answer_to_pass = 1
-    #     else:
-    #         # print("You are incorrect and the door is locked")
-    #         self.answer_to_pass = 2
-    #         self.answer_text.set("You are incorrect and the door is locked")
-    #
-    #
-    # def draw_question_box(self, question, answer):
-    #     # self.button_true["state"] == "normal"
-    #     # self.button_false["state"] == "normal"
-    #     self.button_true.place(x=300, y=600)
-    #     self.button_false.place(x=340, y=600)
-    #     self.question_text.set(question)
-    #     # question_box = tk.Label(self.windows, text=str(question), wraplength=250)
-    #
-    #     self.asking_question = True
-    #
-    #     self.answer = answer
+        self.name = None
+        self.labelName = tk.Label(self.windows, text="User Name: ")
+        self.varName = tk.StringVar()
+        self.entryName = None
 
-
-
-    def draw_answer_box(self):
-        answer_box = tk.Label(self.windows, textvariable=self.answer_text, wraplength=300)
-        answer_box.place(x=100, y=600)
-        self.answer_text.set("")
-        self.answer = None
-        self.draw_answer()
-
-
-    def answer_ture(self):
-        if self.answer == True:
-            self.answer_to_pass = 1
-            self.asking_question = False
-            self.answer_text.set("You are correct and you may enter")
-        if self.answer == False:
-            self.answer_to_pass = 2
-            self.asking_question = False
-            self.answer_text.set("You are incorrect and the door is locked")
-        if self.answer == None:
-            ValueError("answer not set")
-
-    def answer_false(self):
-        if self.answer == False:
-            self.answer_to_pass = 1
-            self.asking_question = False
-            self.answer_text.set("You are correct and you may enter")
-        if self.answer == True:
-            self.answer_to_pass = 2
-            self.asking_question = False
-            self.answer_text.set("You are incorrect and the door is locked")
-        if self.answer == None:
-            ValueError("answer not set")
-
-
-    def draw_question_box(self, question, answer):
-        question_box = tk.Label(self.windows, bitmap="question", compound="left", text=question)
-        question_box.place(x=100,y=450)
-        self.answer = answer
-        self.asking_question = True
-
-    def draw_answer(self):
-        button_true = tk.Button(self.windows, text="Ture", command=self.answer_ture)
-        button_true.place(x=300,y=600)
-        button_false = tk.Button(self.windows, text="False", command=self.answer_false)
-        button_false.place(x=340,y=600)
-
-
-    def reset_question_box(self):
-        self.answer = None
+    def messagebox_question(self, question, answer):
+        print("messagebox start")
+        txt = tk.messagebox.askyesno("Question", question)
+        if txt == answer:
+            print("message box return true")
+            return True
+        else:
+            print("message box return false")
+            return False
 
     def callback(self):
         print("called~")
@@ -172,7 +71,16 @@ class TriviaView:
                 if room.get_value() == 10:  # hero in room
                     self.draw_cell(room.get_y(), room.get_x(), "red")
 
+    def set_controller(self, controller):
+        pass
 
-
-    def print_question(self, question):
-        print("question:" + question)
+    # def login(self):
+    #     self.name = self.entryName.get()
+    #
+    # def welcome_page(self):
+    #     self.varName.set("")
+    #     self.labelName.place(x=240, y=300)
+    #     self.entryName = tk.Entry(self.windows, textvariable=self.varName)
+    #     self.entryName.place(x= 400, y=300)
+    #     buttonOK = tk.Button(self.windows, text="START", command=self.login)
+    #     buttonOK.place(x=300, y=400)

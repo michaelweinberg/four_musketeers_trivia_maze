@@ -75,7 +75,7 @@ class Map:
         room = self.__map[y][x]
         return room
 
-    def enter_room(self, y, x, player):
+    def enter_room(self, y, x, player, answer):
         """
         move the player to the room on the west
         check to see if the room on the east is available to move in.
@@ -83,59 +83,17 @@ class Map:
         check the room status whether it is visited or not.
         """
         if self.movement_available(y, x):
-            if self.__map[y][x].visited_status():
-                print("room has been visited")
-            else:
-                print("room has not been visited answer right")
+            if self.has_reach_exit(y, x):
+                print("Congratulation!")
+            elif answer is True:
                 self.__map[player.get_y()][player.get_x()].set_value(5)
                 player.move(y, x)
                 player.set_score(10)
                 self.__map[y][x].set_value(10)
                 self.__map[player.get_y()][player.get_x()].set_visited()
                 self.__map[player.get_y()][player.get_x()].set_question_status_true()
-
-    def wrong_answer_block_room(self, y, x, player):
-        print("room has not been visited answer wrong")
-        player.set_score(-10)
-        self.block_room(y, x)
-        self.__map[y][x].set_question_status_false()
-
-    def enter_room2(self, player, event, res):
-        if not self.has_reach_exit(player.get_y(), player.get_x()) \
-                and not self.is_game_over(player.get_y(), player.get_x()):
-            if res ==1:
-                if event.keysym == "Left":
-                    print("l")
-                    self.enter_room(player.get_y(), player.get_x() - 1, player)
-                if event.keysym == "Right":
-                    print("r")
-                    self.enter_room(player.get_y(), player.get_x() + 1, player)
-                if event.keysym == "Up":
-                    self.enter_room(player.get_y() - 1, player.get_x(), player)
-                if event.keysym == "Down":
-                    self.enter_room(player.get_y() + 1, player.get_x(), player)
-                # self.__map.generate_player()
-            elif res == 2:
-                if event.keysym == "Left":
-                    self.wrong_answer_block_room(player.get_y(), player.get_x() - 1, player)
-                if event.keysym == "Right":
-                    print("r")
-                    self.wrong_answer_block_room(player.get_y(), player.get_x() + 1, player)
-                if event.keysym == "Up":
-                    self.wrong_answer_block_room(player.get_y() - 1, player.get_x(), player)
-                if event.keysym == "Down":
-                    self.wrong_answer_block_room(player.get_y() + 1, player.get_x(), player)
-
-
-#
-# def run():
-#
-#     map = Map()
-#     map.generate_map()
-#     map.generate_player()
-#     map.print_map()
-#     map.move_player()
-#
-#
-# if __name__ == "__main__":
-#     run()
+            elif answer is False:
+                print("room has not been visited answer wrong")
+                player.set_score(-10)
+                self.block_room(y, x)
+                self.__map[y][x].set_question_status_false()
