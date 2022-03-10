@@ -17,6 +17,8 @@ class TriviaView:
         self.labelName = tk.Label(self.windows, text="User Name: ")
         self.varName = tk.StringVar()
         self.entryName = None
+        self.controller = None
+        self.buttonOK = None
 
     def messagebox_question(self, question, answer):
         print("messagebox start")
@@ -72,15 +74,29 @@ class TriviaView:
                     self.draw_cell(room.get_y(), room.get_x(), "red")
 
     def set_controller(self, controller):
+        self.controller = controller
+
+    def login(self):
+        self.name = self.entryName.get()
+        self.controller.set_name(self.name)
+        self.controller.start_new_game()
+        self.entryName.destroy()
+        self.labelName.destroy()
+        self.buttonOK.destroy()
+
+    def welcome_page(self):
+        # welcome_image = tk.PhotoImage(file='welcome.gif')
+        # image = self.canvas.create_image(0, 0, anchor='nw', image=welcome_image)
+        # image.pack(side='top')
+        self.varName.set("")
+        self.labelName.place(x=200, y=300)
+        self.entryName = tk.Entry(self.windows, textvariable=self.varName)
+        self.entryName.place(x=280, y=300)
+        self.buttonOK = tk.Button(self.windows, text="START", command=self.login)
+        self.buttonOK.place(x=260, y=350)
+
+    def win_game_page(self):
         pass
 
-    # def login(self):
-    #     self.name = self.entryName.get()
-    #
-    # def welcome_page(self):
-    #     self.varName.set("")
-    #     self.labelName.place(x=240, y=300)
-    #     self.entryName = tk.Entry(self.windows, textvariable=self.varName)
-    #     self.entryName.place(x= 400, y=300)
-    #     buttonOK = tk.Button(self.windows, text="START", command=self.login)
-    #     buttonOK.place(x=300, y=400)
+    def game_over_page(self):
+        pass

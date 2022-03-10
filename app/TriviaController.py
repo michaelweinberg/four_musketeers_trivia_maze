@@ -1,6 +1,5 @@
 import pickle
 from Model import Question
-from TriviaView import TriviaView
 from models.player import Player
 from models.room import Room
 from models.map import Map
@@ -10,9 +9,8 @@ class TriviaController:
     def __init__(self, view):
         """
         initial a 4x4 maze, a TriviaView to display the maze, a player module and question module
-        :param windows: tkinter UI
+        :param view: tkinter UI
         """
-        self.cond = None
         self.__player = Player()
         self.__map = None
         self.__view = view
@@ -69,29 +67,33 @@ class TriviaController:
         according to the input, call enter_west, enter_east, enter_north, enter_south
         then, if accessible, reprint the map with the player in the new room
         """
-        if not self.__map.has_reach_exit(self.__player.get_y(), self.__player.get_x()) \
-                and not self.__map.is_game_over(self.__player.get_y(), self.__player.get_x()):
-            if event.keysym == "Left":
-                self.__map.enter_room(self.__player.get_y(), self.__player.get_x()-1, self.__player, self.answering_question())
-            if event.keysym == "Right":
-                self.__map.enter_room(self.__player.get_y(), self.__player.get_x() + 1, self.__player, self.answering_question())
-            if event.keysym == "Up":
-                self.__map.enter_room(self.__player.get_y() - 1, self.__player.get_x(), self.__player, self.answering_question())
-            if event.keysym == "Down":
-                self.__map.enter_room(self.__player.get_y() + 1, self.__player.get_x(), self.__player, self.answering_question())
-
-            self.__player.__str__()
-            self.__view.draw_maze_tk(self.__map.get_map())
         if self.__map.has_reach_exit(self.__player.get_y(), self.__player.get_x()):
-            print("congratulation!")
+            print("end")
+            return
+        if event.keysym == "Left":
+            if not self.__map.movement_available(self.__player.get_y(), self.__player.get_x()-1):
+                return
+            self.__map.enter_room(self.__player.get_y(), self.__player.get_x()-1, self.__player, self.answering_question())
+        if event.keysym == "Right":
+            if not self.__map.movement_available(self.__player.get_y(), self.__player.get_x()+1):
+                return
+            self.__map.enter_room(self.__player.get_y(), self.__player.get_x() + 1, self.__player, self.answering_question())
+        if event.keysym == "Up":
+            if not self.__map.movement_available(self.__player.get_y()-1, self.__player.get_x()):
+                return
+            self.__map.enter_room(self.__player.get_y() - 1, self.__player.get_x(), self.__player, self.answering_question())
+        if event.keysym == "Down":
+            if not self.__map.movement_available(self.__player.get_y()+1, self.__player.get_x()):
+                return
+            self.__map.enter_room(self.__player.get_y() + 1, self.__player.get_x(), self.__player, self.answering_question())
+
+        self.__player.__str__()
+        self.__view.draw_maze_tk(self.__map.get_map())
         if self.__map.is_game_over(self.__player.get_y(), self.__player.get_x()):
             print("Game Over!")
+            return
 
-    def click_handler(self, name):
-        print(name.get() + " is moving")
-
-    def set_name(self):
-        name = input("Please enter your name:\n")
+    def set_name(self, name):
         self.__player.set_name(name)
 
     def room_status(self, y, x):
