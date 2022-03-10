@@ -84,6 +84,7 @@ class Map:
         """
         if self.movement_available(y, x):
             if self.has_reach_exit(y, x):
+                player.move(y, x)
                 print("Congratulation!")
             elif answer is True:
                 self.__map[player.get_y()][player.get_x()].set_value(5)
