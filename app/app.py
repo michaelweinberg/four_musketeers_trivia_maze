@@ -15,16 +15,16 @@ class App(tk.Tk):
         controller = TriviaController(view)
 
         # map = controller.get_map()
-        controller.start_new_game()
+        # controller.start_new_game()
         # controller.store_current_game()
         print("starting app")
         # seed()
 
         view.set_controller(controller)
+        view.welcome_page()
 
 if __name__ == '__main__':
 
     # seed()
     app = App()
     app.mainloop()
-

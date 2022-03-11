@@ -46,7 +46,7 @@ class Question:
         return result
 
     def _dbselect(self):
-        connection = sqlite3.connect("mydb.db")
+        connection = sqlite3.connect("./mydb.db")
         cursorObj = connection.cursor()
         id = int(random.random() * 64 + 1)
         result = cursorObj.execute("select Question, Answer from question where id=?", [id])

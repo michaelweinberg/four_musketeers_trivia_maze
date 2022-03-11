@@ -51,6 +51,9 @@ class Room:
         """set the room value"""
         self.__value = num
 
+    def set_wall(self):
+        self.__is_visited = None
+
     def visited_status(self):
         return self.__is_visited
 
