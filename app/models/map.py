@@ -1,5 +1,5 @@
-from room import Room
-from player import Player
+from models.room import Room
+from models.player import Player
 
 
 class Map:

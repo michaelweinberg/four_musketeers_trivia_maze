@@ -5,6 +5,7 @@ from json import JSONEncoder
 from Model import Question
 from models.player import Player
 from models.room import Room
+from models.map import Map
 import util.model_functions as mf
 
 

@@ -1,6 +1,6 @@
 import sqlite3
 
-con = sqlite3.connect('../mydb.db')
+con = sqlite3.connect('./mydb.db')
 cObj = con.cursor()
 
 
@@ -19,7 +19,7 @@ def save_game(name, model):
     con.commit()
 
 def load_game(name):
-    cObj.execute("SELECT * from games name=?", (name))
+    cObj.execute("SELECT top 1 * from games name=?", (name))
     con.commit()
 
 def data_fetch():
