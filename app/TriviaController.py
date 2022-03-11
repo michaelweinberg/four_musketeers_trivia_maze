@@ -67,9 +67,6 @@ class TriviaController:
         according to the input, call enter_west, enter_east, enter_north, enter_south
         then, if accessible, reprint the map with the player in the new room
         """
-        if self.__map.has_reach_exit(self.__player.get_y(), self.__player.get_x()):
-            print("end")
-            return
         if event.keysym == "Left":
             if not self.__map.movement_available(self.__player.get_y(), self.__player.get_x()-1):
                 return
@@ -90,7 +87,12 @@ class TriviaController:
         self.__player.__str__()
         self.__view.draw_maze_tk(self.__map.get_map())
         if self.__map.is_game_over(self.__player.get_y(), self.__player.get_x()):
+            self.__view.game_over_page()
             print("Game Over!")
+            return
+        if self.__map.has_reach_exit(self.__player.get_y(), self.__player.get_x()):
+            self.__view.win_game_page()
+            print("end")
             return
 
     def set_name(self, name):

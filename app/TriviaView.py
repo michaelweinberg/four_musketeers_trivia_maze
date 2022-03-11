@@ -19,6 +19,8 @@ class TriviaView:
         self.entryName = None
         self.controller = None
         self.buttonOK = None
+        self.buttonNewGame = None
+        self.buttonExit = None
 
     def messagebox_question(self, question, answer):
         print("messagebox start")
@@ -96,7 +98,27 @@ class TriviaView:
         self.buttonOK.place(x=260, y=350)
 
     def win_game_page(self):
-        pass
+        self.canvas.destroy()
+        self.canvas = tk.Canvas(self.windows, background=None, width=640, height=640)
+        self.canvas.pack()
+        self.buttonNewGame = tk.Button(self.windows, text="Start A New Game!", command=self.restart_game)
+        self.buttonNewGame.place(x=235, y=235)
+        self.buttonExit = tk.Button(self.windows, text="Exit", command=exit)
+        self.buttonExit.place(x=270, y=300)
 
     def game_over_page(self):
-        pass
+        self.canvas.destroy()
+        self.canvas = tk.Canvas(self.windows, background=None, width=640, height=640)
+        self.canvas.pack()
+        self.buttonNewGame = tk.Button(self.windows, text="Start A New Game!", command=self.restart_game)
+        self.buttonNewGame.place(x=235, y=235)
+        self.buttonExit = tk.Button(self.windows, text="Exit", command=exit)
+        self.buttonExit.place(x=270, y=300)
+
+    def restart_game(self):
+        self.canvas.destroy()
+        self.canvas = tk.Canvas(self.windows, background=None, width=640, height=640)
+        self.canvas.pack()
+        self.buttonNewGame.destroy()
+        self.buttonExit.destroy()
+        self.controller.start_new_game()
