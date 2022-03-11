@@ -18,7 +18,7 @@ def save_game(name, model):
     cObj.execute("INSERT INTO games VALUES(?, ?)", (name, model))
     con.commit()
 
-def load_game(id, name):
+def load_game(name):
     cObj.execute("SELECT * from games name=?", (name))
     con.commit()
 

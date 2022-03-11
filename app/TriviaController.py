@@ -127,10 +127,11 @@ class TriviaController:
         print(playerJSONData)
 
     def recover_previous_game(self):
-        fr = open("triviaDataFile.txt", "rb")
-        self.__map = pickle.load(fr)
-        self.__player = pickle.load(fr)
-        fr.close()
+        print(mf.load_game("Mike"))
+        # fr = open("triviaDataFile.txt", "rb")
+        # self.__map = pickle.load(fr)
+        # self.__player = pickle.load(fr)
+        # fr.close()
 
     def move_character(self, event):
         """
