@@ -45,7 +45,8 @@ class Player:
     #
     # def move_south(self):
     #     self.set_y(self.__y + 1)
-    def generate_player(self):
+    def generate_player(self, name):
+        self.set_name(name)
         self.set_x(1)
         self.set_y(1)
 

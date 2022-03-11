@@ -22,7 +22,7 @@ class TriviaController:
         self.__question = Question()
         self.__answer_status = None
 
-    def start_new_game(self):
+    def start_new_game(self, name):
         """
         start a new game, set each room value to 0 as initial state,
         set the player to the start point, and redraw the maze in Tk.
@@ -30,7 +30,7 @@ class TriviaController:
         new_map = [[Room(y, x) for x in range(6)] for y in range(6)]
         self.__map = Map(new_map)
         self.__map.generate_map()
-        self.__player.generate_player()
+        self.__player.generate_player(name)
         self.__view.draw_maze_tk(self.__map.get_map())
         # self.__view.draw_question_box()
         self.__view.draw_menu(self.start_new_game)
@@ -51,7 +51,9 @@ class TriviaController:
         fw.close()
         playerJSON = jsonpickle.encode(player, unpicklable=False)
         playerJSONData = json.dumps(playerJSON)
-        mf.save_game("Mike", playerJSONData)
+        mapJSON = jsonpickle.encode(map, unpicklable=False)
+        mapJSONData = json.dumps(mapJSON)
+        mf.save_game(self.__player.get_name(), playerJSONData, mapJSONData)
         print("Player JSON")
         print(playerJSONData)
 

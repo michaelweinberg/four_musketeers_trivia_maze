@@ -85,7 +85,7 @@ class TriviaView:
     def login(self):
         self.name = self.entryName.get()
         self.controller.set_name(self.name)
-        self.controller.start_new_game()
+        self.controller.start_new_game(self.name)
         self.entryName.destroy()
         self.labelName.destroy()
         self.buttonOK.destroy()

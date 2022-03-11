@@ -1,6 +1,6 @@
 import sqlite3
 
-con = sqlite3.connect('./mydb.db')
+con = sqlite3.connect('mydb.db')
 cObj = con.cursor()
 
 
@@ -14,8 +14,8 @@ def insert_value(id, name, country, age, medals):
     cObj.execute("INSERT INTO athletic VALUES(?, ?, ?, ?, ?)", (id, name, country, age, medals))
     con.commit()
     
-def save_game(name, model):
-    cObj.execute("INSERT INTO games VALUES(?, ?)", (name, model))
+def save_game(name, player, map):
+    cObj.execute("INSERT INTO games VALUES(?, ?, ?)", (name, player, map))
     con.commit()
 
 def load_game(name):
