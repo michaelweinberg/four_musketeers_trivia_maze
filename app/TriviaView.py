@@ -1,5 +1,6 @@
 import tkinter
 import tkinter as tk
+import tkinter.messagebox
 
 
 class TriviaView:
@@ -12,82 +13,25 @@ class TriviaView:
         self.windows.title(string=self.title)
         self.canvas = tk.Canvas(self.windows, background=None, width=640, height=640)
         self.canvas.pack()
-        self.asking_question = False
-        self.question_text = tk.StringVar()
-        self.answer_text = tk.StringVar()
-        self.question_box = tk.Label(self.windows, textvariable= self.question_text, wraplength=300)
-        self.answer_box = tk.Label(self.windows, textvariable= self.answer_text, wraplength=300)
-        self.button_true = tk.Button(self.windows, text="True", command=self.answered_true)
-        self.button_false = tk.Button(self.windows, text="False", command=self.answered_false)
-        self.button_true.place(x=-300, y=600)
-        self.button_false.place(x=-340, y=600)
-        self.question_box.place(x=100, y=450)
-        self.question_text.set("Please use the arrow keys to move")
+        self.name = None
+        self.labelName = tk.Label(self.windows, text="User Name: ")
+        self.varName = tk.StringVar()
+        self.entryName = None
         self.controller = None
-        
-        # self.button_true["state"] == "disabled"
-        # self.button_false["state"] == "disabled"
+        self.buttonOK = None
+        self.buttonNewGame = None
+        self.buttonExit = None
 
-    def set_controller(self, controller):
-        """
-        set the contoller
-        :param controller
-        """
-        self.controller = controller
-        print("controller set", self.controller)
-
-    def answered_true(self):
-        # self.button_true["state"] == "disabled"
-        # self.button_false["state"] == "disabled"
-        self.button_true.place(x=-300, y=600)
-        self.button_false.place(x=-340, y=600)
-        self.asking_question = False
-        self.question_text.set("Please use the arrow keys to move")
-
-        if self.answer == True:
-            # print("You are correct and you may enter")
-            self.answer_text.set("You are correct and you may enter")
-        
+    def messagebox_question(self, question, answer):
+        print("messagebox start")
+        txt = tk.messagebox.askyesno("Question", question)
+        if txt == answer:
+            print("message box return true")
+            return True
         else:
-            # print("You are incorrect and the door is locked")
-            self.answer_text.set("You are incorrect and the door is locked")
+            print("message box return false")
+            return False
 
-    def answered_false(self):
-        # self.button_true["state"] == "disabled"
-        # self.button_false["state"] == "disabled"
-        self.button_true.place(x=-300, y=600)
-        self.button_false.place(x=-340, y=600)
-        self.asking_question = False
-        self.question_text.set("Please use the arrow keys to move")
-
-        if self.answer == False:
-            # print("You are correct and you may enter")
-            self.answer_text.set("You are correct and you may enter")
-        
-        else:
-            # print("You are incorrect and the door is locked")
-            self.answer_text.set("You are incorrect and the door is locked")
-
-
-    def draw_question_box(self, question, answer):
-        # self.button_true["state"] == "normal"
-        # self.button_false["state"] == "normal"
-        self.button_true.place(x=300, y=600)
-        self.button_false.place(x=340, y=600)
-        self.question_text.set(question)
-        # question_box = tk.Label(self.windows, text=str(question), wraplength=250)
-
-        self.asking_question = True
-
-        self.answer = answer
-
-
-
-
-    def draw_answer_box(self):
-        self.answer_box.place(x=100, y=600)
-        self.answer_text.set("")
-        
     def callback(self):
         print("called~")
 
@@ -119,9 +63,9 @@ class TriviaView:
         self.canvas.create_rectangle(x0, y0, x1, y1, fill=color, outline="grey", width=1)
 
     def draw_maze_tk(self, map):
-        for row in map:
-            for room in row:
-                print(room.get_value())
+        for y in range(1,5):
+            for x in range(1,5):
+                room = map[y][x]
                 if room.visited_status():
                     self.draw_cell(room.get_y(), room.get_x(), "#8B0000")
                 if room.get_value() == 0:  # empty room
@@ -135,7 +79,50 @@ class TriviaView:
                 if room.get_value() == 10:  # hero in room
                     self.draw_cell(room.get_y(), room.get_x(), "red")
 
+    def set_controller(self, controller):
+        self.controller = controller
 
+    def login(self):
+        self.name = self.entryName.get()
+        self.controller.set_name(self.name)
+        self.controller.start_new_game()
+        self.entryName.destroy()
+        self.labelName.destroy()
+        self.buttonOK.destroy()
 
-    def print_question(self, question):
-        print("question:" + question)
+    def welcome_page(self):
+        # welcome_image = tk.PhotoImage(file='welcome.gif')
+        # image = self.canvas.create_image(0, 0, anchor='nw', image=welcome_image)
+        # image.pack(side='top')
+        self.varName.set("")
+        self.labelName.place(x=200, y=300)
+        self.entryName = tk.Entry(self.windows, textvariable=self.varName)
+        self.entryName.place(x=280, y=300)
+        self.buttonOK = tk.Button(self.windows, text="START", command=self.login)
+        self.buttonOK.place(x=260, y=350)
+
+    def win_game_page(self):
+        self.canvas.destroy()
+        self.canvas = tk.Canvas(self.windows, background=None, width=640, height=640)
+        self.canvas.pack()
+        self.buttonNewGame = tk.Button(self.windows, text="Start A New Game!", command=self.restart_game)
+        self.buttonNewGame.place(x=235, y=235)
+        self.buttonExit = tk.Button(self.windows, text="Exit", command=exit)
+        self.buttonExit.place(x=270, y=300)
+
+    def game_over_page(self):
+        self.canvas.destroy()
+        self.canvas = tk.Canvas(self.windows, background=None, width=640, height=640)
+        self.canvas.pack()
+        self.buttonNewGame = tk.Button(self.windows, text="Start A New Game!", command=self.restart_game)
+        self.buttonNewGame.place(x=235, y=235)
+        self.buttonExit = tk.Button(self.windows, text="Exit", command=exit)
+        self.buttonExit.place(x=270, y=300)
+
+    def restart_game(self):
+        self.canvas.destroy()
+        self.canvas = tk.Canvas(self.windows, background=None, width=640, height=640)
+        self.canvas.pack()
+        self.buttonNewGame.destroy()
+        self.buttonExit.destroy()
+        self.controller.start_new_game()
