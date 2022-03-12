@@ -45,10 +45,10 @@ class TriviaController:
     def store_current_game(self):
         map = self.__map
         player = self.__player
-        fw = open("triviaDataFile.txt", "wb")
-        pickle.dump(map, fw, -1)
-        pickle.dump(player, fw)
-        fw.close()
+        # fw = open("triviaDataFile.txt", "wb")
+        # pickle.dump(map, fw, -1)
+        # pickle.dump(player, fw)
+        # fw.close()
         playerJSON = jsonpickle.encode(player, unpicklable=False)
         playerJSONData = json.dumps(playerJSON)
         mapJSON = jsonpickle.encode(map, unpicklable=False)
@@ -58,7 +58,26 @@ class TriviaController:
         print(playerJSONData)
 
     def recover_previous_game(self):
-        print(mf.load_game("Mike"))
+        print("loading game")
+        # player, map = mf.load_game(self.__player.get_name())
+        results = mf.load_game("Matt")
+        thing =results[2]
+        self.__map = jsonpickle.decode(results[0][2])
+        self.__player = jsonpickle.decode(results[0][1])
+        self.__view.draw_maze_tk(self.__map.get_map())
+        self.__view.draw_menu(self.recover_previous_game)
+        self.move()
+
+        fr = open("triviaDataFile.txt", "rb")
+        self.__map = pickle.load(fr)
+        self.__player = pickle.load(fr)
+        fr.close()
+
+    def deserialize_player(self, json_player):
+        pass
+
+    def deserilize_map(self, json_map):
+
         # fr = open("triviaDataFile.txt", "rb")
         # self.__map = pickle.load(fr)
         # self.__player = pickle.load(fr)
@@ -124,11 +143,11 @@ class TriviaController:
                 if res:
                     self.__map[self.__player.get_y()][self.__player.get_x()].set_value(5)
                     self.__player.move_south()
-                    self.__player.set_score(10)
+                    self.__player.change_score(10)
                     self.__map[self.__player.get_y()][self.__player.get_x()].set_visited()
                     self.__map[self.__player.get_y()][self.__player.get_x()].set_question_status_true()
                 if not res:
-                    self.__player.set_score(-10)
+                    self.__player.change_score(-10)
                     self.block_room(self.player_y()+1, self.player_x())
                     self.__map[self.__player.get_y() + 1][self.__player.get_x()].set_visited()
                     self.__map[self.__player.get_y() + 1][self.__player.get_x()].set_question_status_false()

@@ -16,6 +16,9 @@ class Player:
         return self.__score
 
     def set_score(self, score):
+        self.__score = score
+
+    def change_score(self, score):
         self.__score += score
 
     def get_x(self):

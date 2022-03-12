@@ -39,15 +39,20 @@ class TriviaView:
         if self.controller:
             self.controller.store_current_game()
 
+    def load_game(self):
+        if self.controller:
+            self.controller.recover_previous_game()
+            self.destroy_buttons()
+
     def draw_menu(self, start_game_func):
         print("menu set up")
         menubase = tkinter.Menu(self.windows)
         menubar = tkinter.Menu(menubase, tearoff=False)
         menubar.add_command(label="Start Game", command=start_game_func)
-        menubar.add_command(label="Continue Game", command=self.callback)
+        menubar.add_command(label="Continue Game", command=self.load_game)
         menubar.add_command(label="Save Game", command=self.save)
         menubar.add_command(label="Exit Game", command=self.windows.quit)
-        menubase.add_cascade(label="Menu",menu=menubar)
+        menubase.add_cascade(label="Menu", menu=menubar)
         self.windows.config(menu=menubase)
 
     def draw_player(self, row, col, color="red"):
@@ -86,9 +91,13 @@ class TriviaView:
         self.name = self.entryName.get()
         self.controller.set_name(self.name)
         self.controller.start_new_game(self.name)
+        self.destroy_buttons()
+
+    def destroy_buttons(self):
         self.entryName.destroy()
         self.labelName.destroy()
         self.buttonOK.destroy()
+        self.buttonLoad.destroy()
 
     def welcome_page(self):
         # welcome_image = tk.PhotoImage(file='welcome.gif')
@@ -98,8 +107,10 @@ class TriviaView:
         self.labelName.place(x=200, y=300)
         self.entryName = tk.Entry(self.windows, textvariable=self.varName)
         self.entryName.place(x=280, y=300)
-        self.buttonOK = tk.Button(self.windows, text="START", command=self.login)
-        self.buttonOK.place(x=260, y=350)
+        self.buttonOK = tk.Button(self.windows, text="START GAME", command=self.login)
+        self.buttonOK.place(x=150, y=350)
+        self.buttonLoad = tk.Button(self.windows, text="LOAD GAME", command=self.load_game)
+        self.buttonLoad.place(x=350, y=350)
 
     def win_game_page(self):
         self.canvas.destroy()

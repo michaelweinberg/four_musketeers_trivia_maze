@@ -19,8 +19,9 @@ def save_game(name, player, map):
     con.commit()
 
 def load_game(name):
-    cObj.execute("SELECT top 1 * from games name=?", (name))
-    con.commit()
+    cObj.execute("SELECT name, player, map from games where name=?", (name,))
+    result = cObj.fetchall()
+    return result
 
 def data_fetch():
     cObj.execute("SELECT * FROM athletic")
