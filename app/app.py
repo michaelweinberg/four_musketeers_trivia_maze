@@ -2,6 +2,8 @@
 import tkinter as tk
 from tkinter import ttk
 
+import PIL
+from PIL.Image import Image
 from TriviaView import TriviaView
 from TriviaController import TriviaController
 # from util.seed_db import seed
@@ -14,9 +16,6 @@ class App(tk.Tk):
         view = TriviaView(self, "640x640", "TriviaMaze", len)
         controller = TriviaController(view)
 
-        # map = controller.get_map()
-        # controller.start_new_game()
-        # controller.store_current_game()
         print("starting app")
         # seed()
 

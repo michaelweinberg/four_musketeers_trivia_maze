@@ -90,7 +90,8 @@ class Map:
                 print("Congratulation!")
                 return
             elif answer is True:
-                self.__map[player.get_y()][player.get_x()].set_value(5)
+                if self.__map[player.get_y()][player.get_x()].get_value() != 2:
+                    self.__map[player.get_y()][player.get_x()].set_value(5)
                 player.move(y, x)
                 player.set_score(10)
                 self.__map[y][x].set_value(10)
