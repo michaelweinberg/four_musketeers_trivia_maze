@@ -41,6 +41,8 @@ class TriviaView:
 
     def load_game(self):
         if self.controller:
+            self.name = self.entryName.get()
+            self.controller.set_name(self.name)
             self.controller.recover_previous_game()
             self.destroy_buttons()
 

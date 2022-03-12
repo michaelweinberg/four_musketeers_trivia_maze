@@ -45,39 +45,40 @@ class TriviaController:
     def store_current_game(self):
         map = self.__map
         player = self.__player
-        # fw = open("triviaDataFile.txt", "wb")
-        # pickle.dump(map, fw, -1)
-        # pickle.dump(player, fw)
-        # fw.close()
-        playerJSON = jsonpickle.encode(player, unpicklable=False)
-        playerJSONData = json.dumps(playerJSON)
-        mapJSON = jsonpickle.encode(map, unpicklable=False)
-        mapJSONData = json.dumps(mapJSON)
-        mf.save_game(self.__player.get_name(), playerJSONData, mapJSONData)
-        print("Player JSON")
-        print(playerJSONData)
+        fw = open(str(self.__player.get_name() + ".txt"), "wb")
+        pickle.dump(map, fw, -1)
+        pickle.dump(player, fw)
+        fw.close()
+        # playerJSON = jsonpickle.encode(player, unpicklable=False)
+        # playerJSONData = json.dumps(playerJSON)
+        # mapJSON = jsonpickle.encode(map, unpicklable=False)
+        # mapJSONData = json.dumps(mapJSON)
+        # mf.save_game(self.__player.get_name(), playerJSONData, mapJSONData)
+        # print("Player JSON")
+        # print(playerJSONData)
 
     def recover_previous_game(self):
-        print("loading game")
-        # player, map = mf.load_game(self.__player.get_name())
-        results = mf.load_game("Matt")
-        thing =results[2]
-        self.__map = jsonpickle.decode(results[0][2])
-        self.__player = jsonpickle.decode(results[0][1])
+        fr = open(str(self.__player.get_name() + ".txt"), "rb")
+        self.__map = pickle.load(fr)
+        self.__player = pickle.load(fr)
+        fr.close()
+        # print("loading game")
+        # # player, map = mf.load_game(self.__player.get_name())
+        # results = mf.load_game("Matt")
+        # thing =results[2]
+        # self.__map = jsonpickle.decode(results[0][2])
+        # self.__player = jsonpickle.decode(results[0][1])
         self.__view.draw_maze_tk(self.__map.get_map())
         self.__view.draw_menu(self.recover_previous_game)
         self.move()
 
-        fr = open("triviaDataFile.txt", "rb")
-        self.__map = pickle.load(fr)
-        self.__player = pickle.load(fr)
-        fr.close()
+
 
     def deserialize_player(self, json_player):
         pass
 
     def deserilize_map(self, json_map):
-
+        pass
         # fr = open("triviaDataFile.txt", "rb")
         # self.__map = pickle.load(fr)
         # self.__player = pickle.load(fr)
