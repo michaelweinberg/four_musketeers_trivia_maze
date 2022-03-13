@@ -39,15 +39,30 @@ class TriviaView:
         if self.controller:
             self.controller.store_current_game()
 
+    def instructions(self):
+        tkinter.messagebox.showinfo("How to play this game:", "Navigate maze from Start to Finish using arrow keys.\n"
+                            "You will need to answer one trivia question correctly to pass through each door.\n"
+                            "If the question is answered incorrectly, that door will permanently lock.\n"
+                            "If you are able to reach the End, you will have won the game!")
+        
+    def about(self):
+        tkinter.messagebox.showinfo("Welcome to Winter Olympics Trivia Game!", "Brought to you by the Four Musketeers")
+        
     def draw_menu(self, start_game_func):
         print("menu set up")
         menubase = tkinter.Menu(self.windows)
-        menubar = tkinter.Menu(menubase, tearoff=False)
-        menubar.add_command(label="Start Game", command=start_game_func)
-        menubar.add_command(label="Continue Game", command=self.callback)
-        menubar.add_command(label="Save Game", command=self.save)
-        menubar.add_command(label="Exit Game", command=self.windows.quit)
-        menubase.add_cascade(label="Menu",menu=menubar)
+        filemenu = tkinter.Menu(menubase, tearoff=False)
+        filemenu.add_command(label="Start Game", command=start_game_func)
+        filemenu.add_command(label="Continue Game", command=self.callback)
+        filemenu.add_command(label="Save Game", command=self.save)
+        filemenu.add_command(label="Exit Game", command=self.windows.quit)
+        menubase.add_cascade(label="File",menu=filemenu)
+        # help menu object
+        helpmenu = tkinter.Menu(menubase, tearoff=False)
+        helpmenu.add_command(label="Game Play Instructions", command=self.instructions)
+        helpmenu.add_command(label="About", command=self.about)
+        menubase.add_cascade(label="Help", menu=helpmenu)
+        
         self.windows.config(menu=menubase)
 
     def draw_player(self, row, col, color="red"):
