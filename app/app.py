@@ -4,6 +4,7 @@ from tkinter import ttk
 from Model import Model
 from TriviaView import TriviaView
 from TriviaController import TriviaController
+import pygame
 # from util.seed_db import seed
 
 class App(tk.Tk):
@@ -22,6 +23,10 @@ class App(tk.Tk):
 
         view.set_controller(controller)
         view.welcome_page()
+        
+        pygame.mixer.init()
+        pygame.mixer.music.load("models/Ultimate-Victory.wav")
+        pygame.mixer.music.play(loops = 5)
 
 if __name__ == '__main__':
 

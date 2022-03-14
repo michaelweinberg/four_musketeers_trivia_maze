@@ -1,4 +1,5 @@
 import unittest
+from app.models.player import Player
 from models.room import Room
 from TriviaController import TriviaController
 from TriviaView import TriviaView
@@ -68,7 +69,7 @@ class TriviaControllerTest(unittest.TestCase):
         triviaController.block_room(triviaController.player_y(), triviaController.player_x() + 1)
         assert triviaController.game_over() is True
 
-    Manny's test
+    
     def test_get_question_from_db(self):
         question = db.getQuestion()
         self.assertEqual(question, 'Is this the question?')
@@ -99,7 +100,8 @@ class TriviaControllerTest(unittest.TestCase):
         self.assertNotEqual(isEnteredNorth, False)
 
     def test_enter_south(self):
-        isEnteredSouth = character.enterSouth()
+        controller = TriviaController()
+        isEnteredSouth = controller.enterSouth()
         self.assertEqual(isEnteredSouth, True)
         self.assertNotEqual(isEnteredSouth, False)
 
