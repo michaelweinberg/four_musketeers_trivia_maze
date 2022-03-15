@@ -139,7 +139,7 @@ class TriviaControllerTest(unittest.TestCase):
 
     def test_generate_player(self):
         player = Player(40, 20)
-        player.generate_player()
+        player.generate_player("Mike")
         self.assertEqual(player.get_y(), 1)
         self.assertEqual(player.get_x(), 1)
 
