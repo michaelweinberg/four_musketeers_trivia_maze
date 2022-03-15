@@ -26,7 +26,7 @@ class App(tk.Tk):
         
         pygame.mixer.init()
         pygame.mixer.music.load("models/Ultimate-Victory.wav")
-        pygame.mixer.music.play(loops = 5)
+        pygame.mixer.music.play(-1)
 
 if __name__ == '__main__':
 
