@@ -100,12 +100,12 @@ class Map:
             elif answer is True:
                 self.__map[player.get_y()][player.get_x()].set_value(5)
                 player.move(y, x)
-                player.set_score(10)
+                player.change_score(10)
                 self.__map[y][x].set_value(10)
                 self.__map[player.get_y()][player.get_x()].set_visited()
                 self.__map[player.get_y()][player.get_x()].set_question_status_true()
             elif answer is False:
                 print("room has not been visited answer wrong")
-                player.set_score(-10)
+                player.change_score(-10)
                 self.block_room(y, x)
                 self.__map[y][x].set_question_status_false()
