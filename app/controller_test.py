@@ -40,8 +40,8 @@ class TriviaControllerTest(unittest.TestCase):
 #         player.generate_player()
 #         assert player.get_x() == 1
 #         assert player.get_y() == 1
-    
-        
+
+
 #     def test_movement_available(self):
 #         view = TriviaView(tk.Tk(), "640x640", "TriviaMaze", 64)
 #         triviaController = TriviaController(view)
@@ -77,7 +77,7 @@ class TriviaControllerTest(unittest.TestCase):
 #         triviaController.block_room(triviaController.player_y(), triviaController.player_x() + 1)
 #         assert triviaController.game_over() is True
 
-    
+
 #     def test_get_question_from_db(self):
 #         question = db.getQuestion()
 #         self.assertEqual(question, 'Is this the question?')
@@ -107,21 +107,30 @@ class TriviaControllerTest(unittest.TestCase):
 #         self.assertEqual(isEnteredNorth, True)
 #         self.assertNotEqual(isEnteredNorth, False)
 
-#     def test_enter_south(self):
-#         controller = TriviaController()
-#         isEnteredSouth = controller.enterSouth()
-#         self.assertEqual(isEnteredSouth, True)
-#         self.assertNotEqual(isEnteredSouth, False)
-        
+    # def test_enter_south(self):
+    #      player = Player()
+    #      player.move_south(2, 0)
+    #      self.assertEqual(player.get_x(), 2)
+    #      self.assertNotEqual(enter_south.get_y(),0)
+
 #class TestPlayer(unittest.TestCase):
-    
-    
+
+    def test_get_name(self):
+         player = Player()
+         player.set_name("Manny")
+         self.assertEqual (player.get_name(), "Manny")
+
     def test_init(self):
         player = Player(5, 6)
         self.assertEqual(player.get_y(), 5)
         self.assertEqual(player.get_x(), 6)
 
     def test_set_score(self):
+        player = Player()
+        player.set_score(5)
+        self.assertEqual(player.get_score(), 5)
+
+    def test_get_score(self):
         player = Player()
         player.set_score(5)
         self.assertEqual(player.get_score(), 5)
@@ -139,9 +148,24 @@ class TriviaControllerTest(unittest.TestCase):
 
     def test_generate_player(self):
         player = Player(40, 20)
-        player.generate_player("Mike")
+        player.generate_player("Manny")
         self.assertEqual(player.get_y(), 1)
         self.assertEqual(player.get_x(), 1)
+
+    def test_get_x(self):
+        player = Player()
+        player.set_x(0)
+        self.assertEqual(player.get_x(), 0)
+
+    def test_get_y(self):
+        player = Player()
+        player.set_y(0)
+        self.assertEqual(player.get_y(),0)
+
+    def test_set_y(self):
+         player = Player()
+         player.set_y(3)
+         self.assertEqual(player.get_y(),3)
 
 if __name__ == '__main__':
     unittest.main()
