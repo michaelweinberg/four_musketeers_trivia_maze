@@ -1,5 +1,5 @@
 import pickle
-import jsonpickle
+#import jsonpickle
 import json
 from json import JSONEncoder
 from Model import Question
@@ -7,6 +7,8 @@ from models.player import Player
 from models.room import Room
 from models.map import Map
 import util.model_functions as mf
+import pygame
+from pygame import mixer
 
 
 class TriviaController:
@@ -157,10 +159,3 @@ class TriviaController:
 
     def get_map(self):
         return self.__map
-
-    def player_y(self):
-        return self.__player.get_y()
-
-
-
-

@@ -8,6 +8,7 @@ class View(ttk.Frame):
 
         # self.title("Winter Olympics Trivia Game")
 
+
         parent.title("Olympics Trivia Game")
 
         self.grid(row=0, column=0, padx=10, pady=10)
@@ -28,6 +29,3 @@ class View(ttk.Frame):
 
     def click(self):
         self.controller.click_handler(self.name)
-
-
-
