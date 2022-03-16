@@ -1,4 +1,6 @@
 import pickle
+from tkinter.filedialog import askopenfilename
+
 from Model import Question
 from models.player import Player
 from models.room import Room
@@ -156,3 +158,8 @@ class TriviaController:
 
     def get_map(self):
         return self.__map
+
+    def load_game(self):
+        file = askopenfilename(title="Please choose your file", filetypes=[('txt', '*.txt')])
+        self.recover_previous_game(file)
+        self.__view.destroy_buttons()

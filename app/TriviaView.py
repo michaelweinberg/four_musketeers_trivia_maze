@@ -59,17 +59,17 @@ class TriviaView:
             print("message box return false")
             return False
 
-    def save(self):
-        if self.controller:
-            self.controller.store_current_game()
+    # def save(self):
+    #     if self.controller:
+    #         self.controller.store_current_game()
 
-    def load_game(self):
-        if self.controller:
-            file = askopenfilename(title="Please choose your file", filetypes=[('txt', '*.txt')])
-            # self.name = self.entryName.get()
-            # self.controller.set_name(self.name)
-            self.controller.recover_previous_game(file)
-            self.destroy_buttons()
+    # def load_game(self):
+    #     if self.controller:
+    #         file = askopenfilename(title="Please choose your file", filetypes=[('txt', '*.txt')])
+    #         # self.name = self.entryName.get()
+    #         # self.controller.set_name(self.name)
+    #         self.controller.recover_previous_game(file)
+    #         self.destroy_buttons()
 
     def instructions(self):
         tkinter.messagebox.showinfo("How to play this game:", "Navigate maze from Start to Finish using arrow keys.\n"
@@ -85,10 +85,10 @@ class TriviaView:
         menubase = tkinter.Menu(self.windows)
         filemenu = tkinter.Menu(menubase, tearoff=False)
         filemenu.add_command(label="Start Game", command=start_game_func)
-        filemenu.add_command(label="Continue Game", command=self.load_game)
-        filemenu.add_command(label="Save Game", command=self.save)
+        filemenu.add_command(label="Continue Game", command=self.controller.load_game)
+        filemenu.add_command(label="Save Game", command=self.controller.store_current_game)
         filemenu.add_command(label="Exit Game", command=self.windows.quit)
-        menubase.add_cascade(label="File",menu=filemenu)
+        menubase.add_cascade(label="File", menu=filemenu)
         # help menu object
         helpmenu = tkinter.Menu(menubase, tearoff=False)
         helpmenu.add_command(label="Game Play Instructions", command=self.instructions)
