@@ -1,14 +1,10 @@
 import pickle
 from tkinter.filedialog import askopenfilename
-
 from Model import Question
 from models.player import Player
 from models.room import Room
 from models.map import Map
 import tkinter as tk
-import util.model_functions as mf
-import pygame
-from pygame import mixer
 
 
 class TriviaController:
@@ -34,8 +30,7 @@ class TriviaController:
         self.__map.generate_map()
         self.__player.generate_player(name)
         self.__view.draw_maze_tk(self.__map.get_map())
-        # self.__view.draw_question_box()
-        self.__view.draw_menu(self.start_new_game)
+        self.__view.draw_menu(self.restart_game)
         self.move()
 
     def login(self):
@@ -77,7 +72,6 @@ class TriviaController:
 
     def recover_previous_game(self, file):
         """open a previous game and load it to play."""
-        # fr = open(str(self.__player.get_name() + ".txt"), "rb")
         fr = open(file, "rb")
         self.__map = pickle.load(fr)
         self.__player = pickle.load(fr)
@@ -164,12 +158,11 @@ class TriviaController:
         """set the player's name"""
         self.__player.set_name(name)
 
-    # def get_map(self):
-    #     """get """
-    #     return self.__map
-
     def load_game(self):
         """player choose a file from the previous player (end with .txt), and load game."""
         file = askopenfilename(title="Please choose your file", filetypes=[('txt', '*.txt')])
+        self.__view.canvas.destroy()
+        self.__view.canvas = tk.Canvas(self.windows, background=None, width=640, height=640)
+        self.__view.canvas.pack()
         self.recover_previous_game(file)
         self.__view.destroy_buttons()

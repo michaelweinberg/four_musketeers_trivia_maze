@@ -2,8 +2,6 @@ import tkinter
 import tkinter as tk
 import tkinter.messagebox
 import math
-from tkinter.filedialog import askopenfilename
-
 import PIL
 from PIL import ImageTk
 from PIL.Image import Image
@@ -40,7 +38,6 @@ class TriviaView:
         self.windows.title(string=self.title)
         self.canvas = tk.Canvas(self.windows, background=None, width=640, height=640)
         self.canvas.pack()
-        self.name = None
         self.labelName = tk.Label(self.windows, text="User Name: ")
         self.varName = tk.StringVar()
         self.entryName = None
@@ -48,6 +45,7 @@ class TriviaView:
         self.buttonOK = None
         self.buttonNewGame = None
         self.buttonExit = None
+        self.buttonLoad = None
         self.imglist = []
 
     def messagebox_question(self, question, answer):
@@ -60,18 +58,6 @@ class TriviaView:
             print("message box return false")
             return False
 
-    # def save(self):
-    #     if self.controller:
-    #         self.controller.store_current_game()
-
-    # def load_game(self):
-    #     if self.controller:
-    #         file = askopenfilename(title="Please choose your file", filetypes=[('txt', '*.txt')])
-    #         # self.name = self.entryName.get()
-    #         # self.controller.set_name(self.name)
-    #         self.controller.recover_previous_game(file)
-    #         self.destroy_buttons()
-
     def instructions(self):
         tkinter.messagebox.showinfo("How to play this game:", "Navigate maze from Start to Finish using arrow keys.\n"
                             "You will need to answer one trivia question correctly to pass through each door.\n"
@@ -81,11 +67,11 @@ class TriviaView:
     def about(self):
         tkinter.messagebox.showinfo("Welcome to Winter Olympics Trivia Game!", "Brought to you by the Four Musketeers")
         
-    def draw_menu(self, start_game_func):
+    def draw_menu(self,func):
         print("menu set up")
         menubase = tkinter.Menu(self.windows)
         filemenu = tkinter.Menu(menubase, tearoff=False)
-        filemenu.add_command(label="Start Game", command=start_game_func)
+        filemenu.add_command(label="Start New Game", command=func)
         filemenu.add_command(label="Continue Game", command=self.controller.load_game)
         filemenu.add_command(label="Save Game", command=self.controller.store_current_game)
         filemenu.add_command(label="Exit Game", command=self.windows.quit)
@@ -137,17 +123,10 @@ class TriviaView:
     def set_controller(self, controller):
         self.controller = controller
 
-    # def login(self):
-    #     self.name = self.entryName.get()
-    #     self.controller.set_name(self.name)
-    #     self.controller.start_new_game(self.name)
-    #     self.destroy_buttons()
-
     def destroy_buttons(self):
         self.entryName.destroy()
         self.labelName.destroy()
         self.buttonOK.destroy()
-        # self.buttonLoad.destroy()
 
     def welcome_page(self):
         global welcomeim, imgwelcome
@@ -161,9 +140,9 @@ class TriviaView:
         self.entryName = tk.Entry(self.windows, textvariable=self.varName)
         self.entryName.place(x=280, y=300)
         self.buttonOK = tk.Button(self.windows, text="START GAME", command=self.controller.login)
-        self.buttonOK.place(x=260, y=350)
-        # self.buttonLoad = tk.Button(self.windows, text="LOAD GAME", command=self.load_game)
-        # self.buttonLoad.place(x=350, y=350)
+        self.buttonOK.place(x=150, y=350)
+        self.buttonLoad = tk.Button(self.windows, text="LOAD GAME", command=self.controller.load_game)
+        self.buttonLoad.place(x=350, y=350)
 
     def win_game_page(self):
         global imgwin, winim
@@ -179,6 +158,7 @@ class TriviaView:
         self.buttonExit.place(x=270, y=300)
 
     def game_over_page(self):
+        """display game over page on the screen"""
         global loseim, imglose
         self.canvas.destroy()
         self.canvas = tk.Canvas(self.windows, background=None, width=640, height=640)
@@ -192,6 +172,7 @@ class TriviaView:
         self.buttonExit.place(x=270, y=300)
 
     def draw_star(self):
+        """display a start on the top"""
         center_x = 150
         center_y = 50
         r = 20
