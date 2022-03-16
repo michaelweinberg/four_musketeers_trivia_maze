@@ -1,11 +1,9 @@
 import pickle
-#import jsonpickle
-import json
-from json import JSONEncoder
 from Model import Question
 from models.player import Player
 from models.room import Room
 from models.map import Map
+import tkinter as tk
 import util.model_functions as mf
 import pygame
 from pygame import mixer
@@ -38,7 +36,29 @@ class TriviaController:
         self.__view.draw_menu(self.start_new_game)
         self.move()
 
+    def login(self):
+        self.__view.canvas.destroy()
+        self.__view.canvas = tk.Canvas(self.windows, background=None, width=640, height=640)
+        self.__view.canvas.pack()
+        self.__player.name = self.__view.entryName.get()
+        self.set_name(self.__player.name)
+        self.start_new_game(self.__player.name)
+        self.__view.entryName.destroy()
+        self.__view.labelName.destroy()
+        self.__view.buttonOK.destroy()
+
+    def restart_game(self):
+        self.__view.canvas.destroy()
+        self.__view.canvas = tk.Canvas(self.windows, background=None, width=640, height=640)
+        self.__view.canvas.pack()
+        self.__view.buttonNewGame.destroy()
+        self.__view.buttonExit.destroy()
+        self.start_new_game(self.__player.get_name())
+
     def move(self):
+        """
+        use keyboard left, right, up, down to control the player's movement.
+        """
         self.windows.bind_all("<KeyPress-Left>", lambda event: self.move_character(event))
         self.windows.bind_all("<KeyPress-Right>", lambda event: self.move_character(event))
         self.windows.bind_all("<KeyPress-Up>", lambda event: self.move_character(event))
@@ -51,40 +71,16 @@ class TriviaController:
         pickle.dump(map, fw, -1)
         pickle.dump(player, fw)
         fw.close()
-        # playerJSON = jsonpickle.encode(player, unpicklable=False)
-        # playerJSONData = json.dumps(playerJSON)
-        # mapJSON = jsonpickle.encode(map, unpicklable=False)
-        # mapJSONData = json.dumps(mapJSON)
-        # mf.save_game(self.__player.get_name(), playerJSONData, mapJSONData)
-        # print("Player JSON")
-        # print(playerJSONData)
 
-    def recover_previous_game(self):
-        fr = open(str(self.__player.get_name() + ".txt"), "rb")
+    def recover_previous_game(self, file):
+        # fr = open(str(self.__player.get_name() + ".txt"), "rb")
+        fr = open(file, "rb")
         self.__map = pickle.load(fr)
         self.__player = pickle.load(fr)
         fr.close()
-        # print("loading game")
-        # # player, map = mf.load_game(self.__player.get_name())
-        # results = mf.load_game("Matt")
-        # thing =results[2]
-        # self.__map = jsonpickle.decode(results[0][2])
-        # self.__player = jsonpickle.decode(results[0][1])
         self.__view.draw_maze_tk(self.__map.get_map())
         self.__view.draw_menu(self.recover_previous_game)
         self.move()
-
-
-
-    def deserialize_player(self, json_player):
-        pass
-
-    def deserilize_map(self, json_map):
-        pass
-        # fr = open("triviaDataFile.txt", "rb")
-        # self.__map = pickle.load(fr)
-        # self.__player = pickle.load(fr)
-        # fr.close()
 
     def answering_question(self):
         (question, answer) = self.__question.get_question()
@@ -101,61 +97,62 @@ class TriviaController:
         if event.keysym == "Left":
             if not self.__map.movement_available(self.__player.get_y(), self.__player.get_x()-1):
                 return
-            self.__map.enter_room(self.__player.get_y(), self.__player.get_x()-1, self.__player, self.answering_question())
+            self.enter_room(self.__player.get_y(), self.__player.get_x()-1, self.answering_question())
         if event.keysym == "Right":
             if not self.__map.movement_available(self.__player.get_y(), self.__player.get_x()+1):
                 return
-            self.__map.enter_room(self.__player.get_y(), self.__player.get_x() + 1, self.__player, self.answering_question())
+            self.enter_room(self.__player.get_y(), self.__player.get_x() + 1, self.answering_question())
         if event.keysym == "Up":
             if not self.__map.movement_available(self.__player.get_y()-1, self.__player.get_x()):
                 return
-            self.__map.enter_room(self.__player.get_y() - 1, self.__player.get_x(), self.__player, self.answering_question())
+            self.enter_room(self.__player.get_y() - 1, self.__player.get_x(), self.answering_question())
         if event.keysym == "Down":
             if not self.__map.movement_available(self.__player.get_y()+1, self.__player.get_x()):
                 return
-            self.__map.enter_room(self.__player.get_y() + 1, self.__player.get_x(), self.__player, self.answering_question())
+            self.enter_room(self.__player.get_y() + 1, self.__player.get_x(), self.answering_question())
 
         self.__player.__str__()
         self.__view.draw_maze_tk(self.__map.get_map())
+        if self.__map.has_reach_exit(self.__player.get_y(), self.__player.get_x()):
+            self.__view.win_game_page()
+            print("end")
+            return
         if self.__map.is_game_over(self.__player.get_y(), self.__player.get_x()):
             self.__view.game_over_page()
             print("Game Over!")
             return
 
-        if self.__map.has_reach_exit(self.__player.get_y(), self.__player.get_x()):
-            self.__view.win_game_page()
-            print("end")
-            return
-
-    def set_name(self, name):
-        self.__player.set_name(name)
-
-    def enter_south(self):
+    def enter_room(self, y, x, answer):
         """
-        move the player to the room on the south
-        check to see if the room on the south is available to move in.
+        move the player to the room on the west
+        check to see if the room on the east is available to move in.
         check if the room is in range of the map and not blocked.
         check the room status whether it is visited or not.
         """
-        if self.movement_available(self.__player.get_y() + 1, self.__player.get_x()):
-            if self.__map[self.__player.get_y() + 1][self.__player.get_x()].visited_status():
-                print("room has been visited")
-            else:
-                print("room has not been visited")
-                res = self.answer_question()
-                if res:
-                    self.__map[self.__player.get_y()][self.__player.get_x()].set_value(5)
-                    self.__player.move_south()
-                    self.__player.change_score(10)
-                    self.__map[self.__player.get_y()][self.__player.get_x()].set_visited()
-                    self.__map[self.__player.get_y()][self.__player.get_x()].set_question_status_true()
-                if not res:
-                    self.__player.change_score(-10)
-                    self.block_room(self.player_y()+1, self.player_x())
-                    self.__map[self.__player.get_y() + 1][self.__player.get_x()].set_visited()
-                    self.__map[self.__player.get_y() + 1][self.__player.get_x()].set_question_status_false()
-        else:
-            print("room not available")
+        if self.__map.movement_available(y, x):
+            cur_room = self.__map.get_room(self.__player.get_y(), self.__player.get_x())
+            if self.__map.has_reach_exit(y, x):
+                cur_room.set_value(5)
+                self.__player.move(y, x)
+                self.__map.get_room(y, x).set_value(10)
+                print("Congratulation!")
+                return
+            elif answer is True:
+                if cur_room.get_value() != 2:
+                    cur_room.set_value(5)
+                self.__player.move(y, x)
+                self.__player.set_score(10)
+                self.__map.get_room(y, x).set_value(10)
+                self.__map.get_room(y, x).set_visited()
+                self.__map.get_room(y, x).set_question_status_true()
+            elif answer is False:
+                print("room has not been visited answer wrong")
+                self.__player.set_score(-10)
+                self.__map.block_room(y, x)
+                self.__map.get_room(y, x).set_question_status_false()
+
+    def set_name(self, name):
+        self.__player.set_name(name)
 
     def get_map(self):
         return self.__map

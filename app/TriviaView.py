@@ -1,9 +1,35 @@
 import tkinter
 import tkinter as tk
 import tkinter.messagebox
+import math
+from tkinter.filedialog import askopenfilename
+
+import PIL
+from PIL import ImageTk
+from PIL.Image import Image
 
 
 class TriviaView:
+    boxopenim = None
+    boxblockim = None
+    boxcloseim = None
+    imgclose = None
+    imgblocked = None
+    imgopen = None
+    imglist = None
+    imghero = None
+    heroim = None
+    startim = None
+    imgstart = None
+    endim = None
+    imgend = None
+    imgwin = None
+    winim = None
+    loseim = None
+    imglose = None
+    welcomeim = None
+    imgwelcome = None
+
     def __init__(self, windows, size, title, s):
         self.windows = windows
         self.size = size
@@ -21,6 +47,7 @@ class TriviaView:
         self.buttonOK = None
         self.buttonNewGame = None
         self.buttonExit = None
+        self.imglist = []
 
     def messagebox_question(self, question, answer):
         print("messagebox start")
@@ -32,18 +59,16 @@ class TriviaView:
             print("message box return false")
             return False
 
-    def callback(self):
-        print("called~")
-
     def save(self):
         if self.controller:
             self.controller.store_current_game()
 
     def load_game(self):
         if self.controller:
-            self.name = self.entryName.get()
-            self.controller.set_name(self.name)
-            self.controller.recover_previous_game()
+            file = askopenfilename(title="Please choose your file", filetypes=[('txt', '*.txt')])
+            # self.name = self.entryName.get()
+            # self.controller.set_name(self.name)
+            self.controller.recover_previous_game(file)
             self.destroy_buttons()
 
     def instructions(self):
@@ -60,7 +85,7 @@ class TriviaView:
         menubase = tkinter.Menu(self.windows)
         filemenu = tkinter.Menu(menubase, tearoff=False)
         filemenu.add_command(label="Start Game", command=start_game_func)
-        filemenu.add_command(label="Continue Game", command=self.callback)
+        filemenu.add_command(label="Continue Game", command=self.load_game)
         filemenu.add_command(label="Save Game", command=self.save)
         filemenu.add_command(label="Exit Game", command=self.windows.quit)
         menubase.add_cascade(label="File",menu=filemenu)
@@ -71,85 +96,114 @@ class TriviaView:
         menubase.add_cascade(label="Help", menu=helpmenu)
         self.windows.config(menu=menubase)
 
-    def draw_player(self, row, col, color="red"):
-        cell_width = 100
-        x0, y0 = col * cell_width, row * cell_width
-        x1, y1 = x0 + cell_width, y0 + cell_width
-        self.canvas.create_rectangle(x0, y0, x1, y1, fill=color, outline="green", width=10)
-
-    def draw_cell(self, row, col, color="white"):
-        cell_width = 100
-        x0, y0 = col * cell_width, row * cell_width
-        x1, y1 = x0 + cell_width, y0 + cell_width
-        self.canvas.create_rectangle(x0, y0, x1, y1, fill=color, outline="grey", width=1)
-
     def draw_maze_tk(self, map):
-        for y in range(1,5):
-            for x in range(1,5):
+        global boxcloseim, imgclose, imglist, boxblockedim, imgblocked, boxopenim, imgopen, imghero, heroim, startim, imgstart, endim, imgend
+        for y in range(1, 5):
+            for x in range(1, 5):
                 room = map[y][x]
                 if room.visited_status():
-                    self.draw_cell(room.get_y(), room.get_x(), "#8B0000")
+                    boxopenim = PIL.Image.open(r"boxopen1.png")
+                    imgopen = ImageTk.PhotoImage(boxopenim)
+                    self.imglist.append(imgopen)
+                    self.canvas.create_image(x * 100, y * 100, anchor="nw", image=imgopen)
                 if room.get_value() == 0:  # empty room
-                    self.draw_cell(room.get_y(), room.get_x())
+                    print("emptyroom")
+                    boxcloseim = PIL.Image.open(r"boxclose1.png")
+                    imgclose = ImageTk.PhotoImage(boxcloseim)
+                    self.imglist.append(imgclose)
+                    self.canvas.create_image(x * 100, y * 100, anchor="nw", image=imgclose)
                 if room.get_value() == 4:  # blocked room
-                    self.draw_cell(room.get_y(), room.get_x(), "black")
+                    boxblockedim = PIL.Image.open(r"boxlocked1.png")
+                    imgblocked = ImageTk.PhotoImage(boxblockedim)
+                    self.imglist.append(imgblocked)
+                    self.canvas.create_image(x * 100, y * 100, anchor="nw", image=imgblocked)
                 if room.get_value() == 2:  # start of maze
-                    self.draw_cell(room.get_y(), room.get_x(), "yellow")
+                    startim = PIL.Image.open(r"start.png")
+                    imgstart = ImageTk.PhotoImage(startim)
+                    self.imglist.append(imgstart)
+                    self.canvas.create_image(x * 100, y * 100, anchor="nw", image=imgstart)
                 if room.get_value() == 3:  # end of maze
-                    self.draw_cell(room.get_y(), room.get_x(), "blue")
+                    endim = PIL.Image.open(r"end1.png")
+                    imgend = ImageTk.PhotoImage(endim)
+                    self.imglist.append(imgend)
+                    self.canvas.create_image(x * 100, y * 100, anchor="nw", image=imgend)
                 if room.get_value() == 10:  # hero in room
-                    self.draw_cell(room.get_y(), room.get_x(), "red")
+                    heroim = PIL.Image.open(r"player.png")
+                    imghero = ImageTk.PhotoImage(heroim)
+                    self.imglist.append(imghero)
+                    self.canvas.create_image(x * 100, y * 100, anchor="nw", image=imghero)
 
     def set_controller(self, controller):
         self.controller = controller
 
-    def login(self):
-        self.name = self.entryName.get()
-        self.controller.set_name(self.name)
-        self.controller.start_new_game(self.name)
-        self.destroy_buttons()
+    # def login(self):
+    #     self.name = self.entryName.get()
+    #     self.controller.set_name(self.name)
+    #     self.controller.start_new_game(self.name)
+    #     self.destroy_buttons()
 
     def destroy_buttons(self):
         self.entryName.destroy()
         self.labelName.destroy()
         self.buttonOK.destroy()
-        self.buttonLoad.destroy()
+        # self.buttonLoad.destroy()
 
     def welcome_page(self):
-        # welcome_image = tk.PhotoImage(file='welcome.gif')
-        # image = self.canvas.create_image(0, 0, anchor='nw', image=welcome_image)
-        # image.pack(side='top')
+        global welcomeim, imgwelcome
+        welcomeim = PIL.Image.open(r"welcome.png")
+        imgwelcome = ImageTk.PhotoImage(welcomeim)
+        self.canvas.create_image(320, 150, anchor="center", image=imgwelcome)
+        self.canvas.pack()
+        self.draw_star()
         self.varName.set("")
         self.labelName.place(x=200, y=300)
         self.entryName = tk.Entry(self.windows, textvariable=self.varName)
         self.entryName.place(x=280, y=300)
-        self.buttonOK = tk.Button(self.windows, text="START GAME", command=self.login)
-        self.buttonOK.place(x=150, y=350)
-        self.buttonLoad = tk.Button(self.windows, text="LOAD GAME", command=self.load_game)
-        self.buttonLoad.place(x=350, y=350)
+        self.buttonOK = tk.Button(self.windows, text="START GAME", command=self.controller.login)
+        self.buttonOK.place(x=260, y=350)
+        # self.buttonLoad = tk.Button(self.windows, text="LOAD GAME", command=self.load_game)
+        # self.buttonLoad.place(x=350, y=350)
 
     def win_game_page(self):
+        global imgwin, winim
         self.canvas.destroy()
         self.canvas = tk.Canvas(self.windows, background=None, width=640, height=640)
+        winim = PIL.Image.open(r"win1.png")
+        imgwin = ImageTk.PhotoImage(winim)
+        self.canvas.create_image(310, 250, anchor="center", image=imgwin)
         self.canvas.pack()
-        self.buttonNewGame = tk.Button(self.windows, text="Start A New Game!", command=self.restart_game)
+        self.buttonNewGame = tk.Button(self.windows, text="Start A New Game!", command=self.controller.restart_game)
         self.buttonNewGame.place(x=235, y=235)
         self.buttonExit = tk.Button(self.windows, text="Exit", command=exit)
         self.buttonExit.place(x=270, y=300)
 
     def game_over_page(self):
+        global loseim, imglose
         self.canvas.destroy()
         self.canvas = tk.Canvas(self.windows, background=None, width=640, height=640)
+        loseim = PIL.Image.open(r"lose1.png")
+        imglose = ImageTk.PhotoImage(loseim)
+        self.canvas.create_image(310, 250, anchor="center", image=imglose)
         self.canvas.pack()
-        self.buttonNewGame = tk.Button(self.windows, text="Start A New Game!", command=self.restart_game)
+        self.buttonNewGame = tk.Button(self.windows, text="Start A New Game!", command=self.controller.restart_game)
         self.buttonNewGame.place(x=235, y=235)
         self.buttonExit = tk.Button(self.windows, text="Exit", command=exit)
         self.buttonExit.place(x=270, y=300)
 
-    def restart_game(self):
-        self.canvas.destroy()
-        self.canvas = tk.Canvas(self.windows, background=None, width=640, height=640)
-        self.canvas.pack()
-        self.buttonNewGame.destroy()
-        self.buttonExit.destroy()
-        self.controller.start_new_game()
+    def draw_star(self):
+        center_x = 150
+        center_y = 50
+        r = 20
+        points = [
+            center_x - int(r * math.sin(2 * math.pi / 5)),
+            center_y - int(r * math.cos(2 * math.pi / 5)),
+            center_x + int(r * math.sin(2 * math.pi / 5)),
+            center_y - int(r * math.cos(2 * math.pi / 5)),
+            center_x - int(r * math.sin(math.pi / 5)),
+            center_y + int(r * math.cos(math.pi / 5)),
+            center_x,
+            center_y - r,
+            center_x + int(r * math.sin(math.pi / 5)),
+            center_y + int(r * math.cos(math.pi / 5)),
+        ]
+        self.canvas.create_polygon(points, outline='green', fill='yellow')
