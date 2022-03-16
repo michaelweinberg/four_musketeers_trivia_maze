@@ -30,6 +30,7 @@ class TriviaView:
     imgwelcome = None  # these are pictures used in the view
 
     def __init__(self, windows, size, title, s):
+        """init a view to use in the app"""
         self.windows = windows
         self.size = size
         self.title = title
@@ -49,6 +50,7 @@ class TriviaView:
         self.imglist = []
 
     def messagebox_question(self, question, answer):
+        """show questions from databass and player need to choose if it is correct(yes button) or incorrect(no button)"""
         print("messagebox start")
         txt = tk.messagebox.askyesno("Question", question)
         if txt == answer:
@@ -59,15 +61,21 @@ class TriviaView:
             return False
 
     def instructions(self):
+        """instructions for how to play this game."""
         tkinter.messagebox.showinfo("How to play this game:", "Navigate maze from Start to Finish using arrow keys.\n"
                             "You will need to answer one trivia question correctly to pass through each door.\n"
                             "If the question is answered incorrectly, that door will permanently lock.\n"
                             "If you are able to reach the End, you will have won the game!")
         
     def about(self):
+        """a brief introduction to our game and our team."""
         tkinter.messagebox.showinfo("Welcome to Winter Olympics Trivia Game!", "Brought to you by the Four Musketeers")
         
-    def draw_menu(self,func):
+    def draw_menu(self, func):
+        """
+        set up the menu bar with start new game, continue game, save game, and exit game function.
+        set up the help bar with game play instruction and about function.
+        """
         print("menu set up")
         menubase = tkinter.Menu(self.windows)
         filemenu = tkinter.Menu(menubase, tearoff=False)
@@ -84,6 +92,10 @@ class TriviaView:
         self.windows.config(menu=menubase)
 
     def draw_maze_tk(self, map):
+        """
+        display trivia maze on the screen with blocks to show start point,
+        end point, unvisited blocks, visited blocks, and player.
+        """
         global boxcloseim, imgclose, imglist, boxblockedim, imgblocked, boxopenim, imgopen, imghero, heroim, startim, imgstart, endim, imgend
         for y in range(1, 5):
             for x in range(1, 5):
@@ -121,14 +133,17 @@ class TriviaView:
                     self.canvas.create_image(x * 100, y * 100, anchor="nw", image=imghero)
 
     def set_controller(self, controller):
+        """get controller"""
         self.controller = controller
 
     def destroy_buttons(self):
+        """destroy enter name button, name label button, and ok button"""
         self.entryName.destroy()
         self.labelName.destroy()
         self.buttonOK.destroy()
 
     def welcome_page(self):
+        """welcome page display and get name input from the player"""
         global welcomeim, imgwelcome
         welcomeim = PIL.Image.open(r"welcome.png")
         imgwelcome = ImageTk.PhotoImage(welcomeim)
@@ -145,6 +160,7 @@ class TriviaView:
         self.buttonLoad.place(x=350, y=350)
 
     def win_game_page(self):
+        """display win game page on the screen"""
         global imgwin, winim
         self.canvas.destroy()
         self.canvas = tk.Canvas(self.windows, background=None, width=640, height=640)
@@ -172,7 +188,7 @@ class TriviaView:
         self.buttonExit.place(x=270, y=300)
 
     def draw_star(self):
-        """display a start on the top"""
+        """display a star on the top"""
         center_x = 150
         center_y = 50
         r = 20

@@ -1,5 +1,3 @@
-from models.room import Room
-from models.player import Player
 
 
 class Map:
@@ -37,11 +35,6 @@ class Map:
         self.__start.set_start()
         self.__destination = self.__map[self.__height - 2][self.__width - 2]
         self.__destination.set_destination()
-
-    def generate_player(self):
-        x = self.__player.get_x()
-        y = self.__player.get_y()
-        self.__map[y][x].set_value(10)
 
     def movement_available(self, y, x):
         print("check room available")
