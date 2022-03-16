@@ -14,7 +14,7 @@ from pygame import mixer
 class TriviaController:
     def __init__(self, view):
         """
-        initial a 4x4 maze, a TriviaView to display the maze, a player module and question module
+        initial a maze, a TriviaView to display the maze, a player module and question module
         :param view: tkinter UI
         """
         self.__player = Player()
@@ -39,6 +39,7 @@ class TriviaController:
         self.move()
 
     def login(self):
+        """player input a name, and start a new game."""
         self.__view.canvas.destroy()
         self.__view.canvas = tk.Canvas(self.windows, background=None, width=640, height=640)
         self.__view.canvas.pack()
@@ -50,6 +51,7 @@ class TriviaController:
         self.__view.buttonOK.destroy()
 
     def restart_game(self):
+        """player restart with a new game without changing name. used in win or lose game page."""
         self.__view.canvas.destroy()
         self.__view.canvas = tk.Canvas(self.windows, background=None, width=640, height=640)
         self.__view.canvas.pack()
@@ -58,15 +60,14 @@ class TriviaController:
         self.start_new_game(self.__player.get_name())
 
     def move(self):
-        """
-        use keyboard left, right, up, down to control the player's movement.
-        """
+        """use keyboard left, right, up, down to control the player's movement."""
         self.windows.bind_all("<KeyPress-Left>", lambda event: self.move_character(event))
         self.windows.bind_all("<KeyPress-Right>", lambda event: self.move_character(event))
         self.windows.bind_all("<KeyPress-Up>", lambda event: self.move_character(event))
         self.windows.bind_all("<KeyPress-Down>", lambda event: self.move_character(event))
 
     def store_current_game(self):
+        """store the game using pickle"""
         map = self.__map
         player = self.__player
         fw = open(str(self.__player.get_name() + ".txt"), "wb")
@@ -75,6 +76,7 @@ class TriviaController:
         fw.close()
 
     def recover_previous_game(self, file):
+        """open a previous game and load it to play."""
         # fr = open(str(self.__player.get_name() + ".txt"), "rb")
         fr = open(file, "rb")
         self.__map = pickle.load(fr)
@@ -85,6 +87,10 @@ class TriviaController:
         self.move()
 
     def answering_question(self):
+        """
+        get the question from data bass, and pop out a messagebox to show the question.
+        then return its answer as "res"
+        """
         (question, answer) = self.__question.get_question()
         print(self.__question.get_question())
         res = self.__view.messagebox_question(question, answer)
@@ -93,8 +99,8 @@ class TriviaController:
     def move_character(self, event):
         """
         get the input from the keyboard and move the player to the direction
-        according to the input, call enter_west, enter_east, enter_north, enter_south
-        then, if accessible, reprint the map with the player in the new room
+        according to the input, call enter_room.
+        then, if accessible, redraw the map with the player in the new room
         """
         if event.keysym == "Left":
             if not self.__map.movement_available(self.__player.get_y(), self.__player.get_x()-1):
@@ -126,10 +132,11 @@ class TriviaController:
 
     def enter_room(self, y, x, answer):
         """
-        move the player to the room on the west
-        check to see if the room on the east is available to move in.
+        move the player to the room on the row y and col x
+        check to see if the room is available to move in.
         check if the room is in range of the map and not blocked.
-        check the room status whether it is visited or not.
+        check the map to see whether it is the exit
+        or the game has not room to move into.
         """
         if self.__map.movement_available(y, x):
             cur_room = self.__map.get_room(self.__player.get_y(), self.__player.get_x())
@@ -154,12 +161,15 @@ class TriviaController:
                 self.__map.get_room(y, x).set_question_status_false()
 
     def set_name(self, name):
+        """set the player's name"""
         self.__player.set_name(name)
 
-    def get_map(self):
-        return self.__map
+    # def get_map(self):
+    #     """get """
+    #     return self.__map
 
     def load_game(self):
+        """player choose a file from the previous player (end with .txt), and load game."""
         file = askopenfilename(title="Please choose your file", filetypes=[('txt', '*.txt')])
         self.recover_previous_game(file)
         self.__view.destroy_buttons()

@@ -10,25 +10,26 @@ from PIL.Image import Image
 
 
 class TriviaView:
-    boxopenim = None
-    boxblockim = None
-    boxcloseim = None
-    imgclose = None
-    imgblocked = None
-    imgopen = None
-    imglist = None
-    imghero = None
-    heroim = None
-    startim = None
-    imgstart = None
-    endim = None
-    imgend = None
-    imgwin = None
-    winim = None
-    loseim = None
-    imglose = None
-    welcomeim = None
-    imgwelcome = None
+    """TriviaView use tkinter to display a maze, player move in the maze, questions, and menu."""
+    boxopenim = None  # these are pictures used in the view
+    boxblockim = None  # these are pictures used in the view
+    boxcloseim = None  # these are pictures used in the view
+    imgclose = None  # these are pictures used in the view
+    imgblocked = None  # these are pictures used in the view
+    imgopen = None  # these are pictures used in the view
+    imglist = None  # these are pictures used in the view
+    imghero = None  # these are pictures used in the view
+    heroim = None  # these are pictures used in the view
+    startim = None  # these are pictures used in the view
+    imgstart = None  # these are pictures used in the view
+    endim = None  # these are pictures used in the view
+    imgend = None  # these are pictures used in the view
+    imgwin = None  # these are pictures used in the view
+    winim = None  # these are pictures used in the view
+    loseim = None  # these are pictures used in the view
+    imglose = None  # these are pictures used in the view
+    welcomeim = None  # these are pictures used in the view
+    imgwelcome = None  # these are pictures used in the view
 
     def __init__(self, windows, size, title, s):
         self.windows = windows
