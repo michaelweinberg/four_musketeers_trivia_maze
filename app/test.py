@@ -46,8 +46,7 @@ class Room_Test(unittest.TestCase):
 
 class Map_Test(unittest.TestCase):
     
-   
-             
+               
     def test_block_room(self):
         new_map = [[Room(y, x) for x in range(6)] for y in range(6)]
         map = Map(new_map)
@@ -62,8 +61,7 @@ class Map_Test(unittest.TestCase):
         new_map = [[Room(y, x) for x in range(6)] for y in range(6)]
         map = Map(new_map)
         self.assertEqual(map.has_reach_exit(4, 4), True)
-    
-        
+      
 
 class Player_Test(unittest.TestCase):
     
@@ -118,8 +116,4 @@ class Player_Test(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
-    
-    
-    
-    
     
