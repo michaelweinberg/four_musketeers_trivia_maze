@@ -8,10 +8,14 @@ class Room:
         self.__is_visited = False
         self.__question_status = None
 
+    def get_name(self):
+        return self.__name
+        
     def get_x(self):
         """:return the number of the cols of the room in the map"""
         return self.__coordinate_x
-
+          
+    
     def get_y(self):
         """:return the number of the rows of the room in the map"""
         return self.__coordinate_y
@@ -20,6 +24,9 @@ class Room:
         """:return str of the name of the room"""
         return "This is a " + "x" + str(self.__coordinate_x) + "y" + str(self.__coordinate_y) + "value" + str(self.__value)
 
+    def set_name(self):
+        return self.__name
+    
     def set_empty(self):
         """set the room value to zero as an empty room"""
         self.__value = 0
