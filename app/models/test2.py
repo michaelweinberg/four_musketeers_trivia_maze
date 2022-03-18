@@ -8,7 +8,7 @@ import tkinter as tk
 
 
 
-class TriviaControllerTest(unittest.TestCase):
+class TriviaControllerTest(unittest.TestCase): #test2
 
      def test_init(self):
          view = TriviaView(tk.Tk(), "640x640", "TriviaMaze", 64)
@@ -113,7 +113,7 @@ class TriviaControllerTest(unittest.TestCase):
           self.assertEqual(player.get_x(), 2)
           self.assertNotEqual(enter_south.get_y(),0)
           
-class Map_Test(unittest.TestCase):
+class Map_Test(unittest.TestCase): #test2
     
                
     def test_block_room(self):
